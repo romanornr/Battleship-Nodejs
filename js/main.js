@@ -2,17 +2,13 @@
  * Created by Wim on 11-3-2016.
  */
 var Title = function(posX, posY, height, width, id){
-    this.posX = posX;
-    this.posY = posY;
-    this.height = height;
-    this.width = width;
     this.clicked = false;
 
     this.elem = document.createElement("div");
     this.elem.className = "title";
     this.elem.id = id;
-    this.elem.style.width = (this.width - 4) + "px";
-    this.elem.style.height = (this.height -4) + "px";
+    this.elem.style.width = (width - 4) + "px";
+    this.elem.style.height = (height -4) + "px";
 
     this.elem.addEventListener("click", function(){ titleOnClick(this); });
 
