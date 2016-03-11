@@ -6,12 +6,15 @@ var Title = function(posX, posY, height, width, id){
     this.posY = posY;
     this.height = height;
     this.width = width;
+    this.clicked = false;
 
     this.elem = document.createElement("div");
     this.elem.className = "title";
     this.elem.id = id;
     this.elem.style.width = (this.width - 4) + "px";
     this.elem.style.height = (this.height -4) + "px";
+
+    this.elem.addEventListener("click", function(){ titleOnClick(this); });
 
     this.draw = function(parent){
         parent.appendChild(this.elem);
@@ -21,7 +24,7 @@ var Title = function(posX, posY, height, width, id){
 var Grid = function(height, width, titleX, titleY){
     this.titleWidth = width / titleX;
     this.titleHeight = height / titleY;
-    
+
     this.titles = [];
     for(var i = 0; i < titleY; i++){
         this.titles[i] = [];
@@ -45,6 +48,13 @@ var Grid = function(height, width, titleX, titleY){
             }
         }
     }
+};
+
+var titleOnClick = function(title){
+    var titleElem = document.getElementById(title.id);
+    titleElem.style.backgroundColor = "blue";
+
+    title.clicked = true;
 };
 
 var grid = new Grid(960, 960, 15, 15);
