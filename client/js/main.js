@@ -33,6 +33,27 @@ function Statistics()
 	this.uuid = localStorage.getItem('uuid') || this.createuuid();
 }
 
+Statistics.prototype.incrementHits = function()
+{
+	this.hits++;
+}
+
+Statistics.prototype.incrementTaken = function()
+{
+	this.taken++;
+}
+
+Statistics.prototype.wonGame = function()
+{
+	this.gamesPlayed++;
+	this.gamesWon++;
+}
+
+Statistics.prototype.lostGame = function()
+{
+	this.gamesPlayed++;
+}
+
 var grid = {}, shipTitles = [], shipSize = 2, previews = [];
 
 var Title = function (posX, posY, height, width, id) {
