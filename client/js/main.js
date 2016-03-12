@@ -3,7 +3,7 @@
  */
 
 var Const = {};
-Const.availableShips = ['battleship', 'carrier', 'destroyer', 'submarine','patrolboat'];
+Const.availableShips = ['carrier','battleship', 'destroyer', 'submarine','patrolboat'];
 Const.player1 = 0;
 Const.player2 = 1;
 
@@ -53,6 +53,68 @@ Statistics.prototype.lostGame = function()
 {
 	this.gamesPlayed++;
 }
+
+/**
+ * Define ship objects
+ * constructor
+ * @param Ship type
+ */
+function Ship(type)
+{
+	this.type = type;
+	this.damage = 0;
+
+	switch(this.type)
+	{
+		case Const.availableShips[0]:
+			this.shipLenght = 5;
+			break;
+		case Const.availableShips[1]:
+			this.shipLenght = 4;
+		case Const.availableShips[2]:
+			this.shipLenght = 3;
+		case Const.availableShips[3]:
+			this.shipLenght = 2;
+		default:
+			this.shipLenght = 3;
+			break;
+	}
+	this.maxDamage = this.shipLenght;
+	this.rekt = false;
+}
+
+/**
+ * Increment damage the ship
+ * @return true
+ */
+Ship.prototype.incrementDamage = function()
+{
+	this.damage++;
+	if(this.isRekt())
+	{
+		this.rektShip()
+	}
+};
+
+/**
+ * Check to see if ship is rekt/sunk
+ * @return {Boolean}
+ */
+Ship.prototype.isRekt = function()
+{
+	return this.damage >= this.maxDamage;
+};
+console.log(this.damage);
+
+/**
+ * make the ship sink
+ * @return {Boolean} [returns true]
+ */
+Ship.prototype.rektShip = function()
+{
+	this.damage = this.maxDamage;
+	this.rekt = true;
+};
 
 var grid = {}, shipTitles = [], shipSize = 2, previews = [];
 
