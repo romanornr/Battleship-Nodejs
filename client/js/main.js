@@ -1,7 +1,7 @@
 /**
  * Created by Wim on 11-3-2016.
  */
-var grid = {}, ships = [], shipSize = 2;
+var grid = {}, shipTitles = [], shipSize = 2, previews = [];
 
 var Title = function (posX, posY, height, width, id) {
     this.clicked = false;
@@ -15,6 +15,12 @@ var Title = function (posX, posY, height, width, id) {
     this.elem.addEventListener("click", function () {
         placeShip(this);
     });
+
+    this.elem.addEventListener("mouseover", function () {
+        previewShip(this);
+    });
+
+    this.elem.addEventListener("mouseout", resetPreviews);
 
     this.draw = function (parent) {
         parent.appendChild(this.elem);
@@ -44,22 +50,66 @@ var Grid = function (height, width, titleX, titleY) {
     };
 };
 
-var Ship = function (size, posX, posY) {
-
-};
-
 var placeShip = function (title) {
-    var ship = new Ship(shipSize, title.posX, title.posY);
-    ships.push(ship);
+    previews = [];
+    var titles = [];
 
-    for(var i = 0; i < shipSize; i++){
-        var id = Number(title.id) + i * 15;
-        titleElem = document.getElementById(id) ;
-        titleElem.style.backgroundColor = "blue";
+    for (var i = 0; i < shipSize; i++) {
+        titles.push(Number(title.id) + i * 15);
+    }
+
+    var taken = titleTaken(titles);
+
+    if(!taken) {
+        for (i = 0; i < shipSize; i++) {
+            titleElem = document.getElementById(titles[i]);
+            titleElem.style.backgroundColor = "blue";
+
+            shipTitles.push(titles[i]);
+        }
     }
 };
 
-var setShipSize = function(size){
+var previewShip = function (title) {
+    var previewTitles = [];
+
+    for (var i = 0; i < shipSize; i++) {
+        previewTitles.push(Number(title.id) + i * 15);
+    }
+
+    var taken = titleTaken(previewTitles);
+
+    if (!taken) {
+        for (i = 0; i < shipSize; i++) {
+            var id = Number(title.id) + i * 15;
+
+            titleElem = document.getElementById(id);
+            titleElem.style.backgroundColor = "lightblue";
+
+            previews.push(id);
+        }
+    }
+};
+
+var titleTaken = function(titles){
+    var taken = false;
+    for (i = 0; i < shipSize; i++) {
+        if (shipTitles.indexOf(titles[i]) != -1) {
+            taken = true;
+        }
+    }
+    return taken;
+};
+
+var resetPreviews = function () {
+    for (var i = 0; i < previews.length; i++) {
+        var elem = document.getElementById(previews[i]);
+        elem.style.backgroundColor = "red";
+    }
+    previews = [];
+};
+
+var setShipSize = function (size) {
     shipSize = size;
 };
 
