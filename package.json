@@ -1,0 +1,16 @@
+{
+  "name": "Battelship",
+  "description": "Battleship game with Nodejs",
+  "author": "Romano and Wim",
+  "version": "0.0.1",
+  "dependencies": {
+    "jshint": "^2.6.0"
+  },
+  "scripts": {
+    "test": "./node_modules/jshint/bin/jshint server/app.js",
+    "test2": "./node_modules/jshint/bin/jshint client/main.js"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.1"
+  }
+}
