@@ -1,6 +1,38 @@
 /**
  * Created by Wim on 11-3-2016.
  */
+
+var Const = {};
+Const.availableShips = ['battleship', 'carrier', 'destroyer', 'submarine','patrolboat'];
+Const.player1 = 0;
+Const.player2 = 1;
+
+Const.empty = 0; //water
+Const.ship = 1; //boat	
+Const.miss = 2; //shot missed
+Const.hit = 3;  //boat got hit
+Const.rekt = 4; //sunk ship
+
+/**
+ * Game statistics to show
+ * How many hits 
+ * How many times player got hit
+ * How many games got played
+ * how many games got won
+ * getting unique id or create one
+ */
+function Statistics()
+{
+	this.taken = 0;
+	this.hits = 0;
+
+	this.totalTaken = parseInt(localStorage.getItem('totalTaken'), 1) || 0;
+	this.totalHits = parseInt(localStorage.getItem(totalHits), 1) || 0;
+	this.gamesPlayed = parseInt(localStorage.getItem('gamesPlayed'), 1) || 0;
+	this.gamesWon = parseInt(localStorage.getItem('gamesWon'), 1) || 0;
+	this.uuid = localStorage.getItem('uuid') || this.createuuid();
+}
+
 var grid = {}, shipTitles = [], shipSize = 2, previews = [];
 
 var Title = function (posX, posY, height, width, id) {
