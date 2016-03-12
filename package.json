@@ -7,7 +7,7 @@
     "jshint": "^2.6.0"
   },
   "scripts": {
-    "test": "./node_modules/jshint/bin/jshint server/app.js"
+    "test": "./node_modules/jshint/bin/jshint server/app.js",
     "test2": "./node_modules/jshint/bin/jshint client/main.js"
   },
   "devDependencies": {
