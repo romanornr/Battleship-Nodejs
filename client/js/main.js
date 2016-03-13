@@ -173,6 +173,7 @@ var Grid = function (height, width, titleX, titleY) {
     };
 };
 
+//Called by cick event for a title
 var placeShip = function (title) {
     gameWorld.previewTites = [];
     var titles = [];
@@ -193,6 +194,7 @@ var placeShip = function (title) {
     }
 };
 
+//Called by mouseover event for a title
 var previewShip = function (title) {
     var previewTitles = [];
 
@@ -214,16 +216,7 @@ var previewShip = function (title) {
     }
 };
 
-var titleTaken = function(titles){
-    var taken = false;
-    for (i = 0; i < gameWorld.selectedShipSize; i++) {
-        if (gameWorld.shipTitels.indexOf(titles[i]) != -1) {
-            taken = true;
-        }
-    }
-    return taken;
-};
-
+//Called by mouseout event for a title
 var resetPreviews = function () {
     for (var i = 0; i < gameWorld.previewTites.length; i++) {
         var elem = document.getElementById(gameWorld.previewTites[i]);
@@ -234,6 +227,18 @@ var resetPreviews = function () {
 
 var setShipSize = function (size) {
     gameWorld.selectedShipSize = size;
+};
+
+
+//called by a click event on a button
+var titleTaken = function(titles){
+    var taken = false;
+    for (i = 0; i < gameWorld.selectedShipSize; i++) {
+        if (gameWorld.shipTitels.indexOf(titles[i]) != -1) {
+            taken = true;
+        }
+    }
+    return taken;
 };
 
 gameWorld.grid = new Grid(960, 960, 15, 15);
