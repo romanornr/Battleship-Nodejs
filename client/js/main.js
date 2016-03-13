@@ -67,8 +67,9 @@ Statistics.prototype.lostGame = function()
  * constructor
  * @param Ship type
  */
-function Ship(type)
+function Ship(type, pos)
 {
+    this.pos = pos;
 	this.type = type;
 	this.damage = 0;
 
@@ -127,16 +128,21 @@ Ship.prototype.rektShip = function()
 };
 
 var Title = function (posX, posY, height, width, id) {
+    this.pos = {x: posX, y: posY};
+    this.height = height;
+    this.width = width;
+    this.id = id;
+
     this.clicked = false;
 
     this.elem = document.createElement("div");
     this.elem.className = "title";
     this.elem.id = id;
-    this.elem.style.width = (width - 4) + "px";
-    this.elem.style.height = (height - 4) + "px";
+    this.elem.style.width = (this.width - 4) + "px";
+    this.elem.style.height = (this.height - 4) + "px";
 
     this.elem.addEventListener("click", function () {
-        placeShip(this);
+        placeShip(this, {x: posX, y: posY});
     });
 
     this.elem.addEventListener("mouseover", function () {
@@ -174,7 +180,10 @@ var Grid = function (height, width, titleX, titleY) {
 };
 
 //Called by cick event for a title
-var placeShip = function (title) {
+var placeShip = function (title, pos) {
+    var ship = new Ship(gameWorld.selectedShipSize, pos);
+    gameWorld.ships.push(ship);
+
     gameWorld.previewTites = [];
     var titles = [];
 
