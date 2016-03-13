@@ -36,23 +36,23 @@ function Statistics()
 Statistics.prototype.incrementHits = function()
 {
 	this.hits++;
-}
+};
 
 Statistics.prototype.incrementTaken = function()
 {
 	this.taken++;
-}
+};
 
 Statistics.prototype.wonGame = function()
 {
 	this.gamesPlayed++;
 	this.gamesWon++;
-}
+};
 
 Statistics.prototype.lostGame = function()
 {
 	this.gamesPlayed++;
-}
+};
 
 /**
  * Define ship objects
@@ -71,10 +71,13 @@ function Ship(type)
 			break;
 		case Const.availableShips[1]:
 			this.shipLenght = 4;
+            break;
 		case Const.availableShips[2]:
 			this.shipLenght = 3;
+            break;
 		case Const.availableShips[3]:
 			this.shipLenght = 2;
+            break;
 		default:
 			this.shipLenght = 3;
 			break;
@@ -104,7 +107,6 @@ Ship.prototype.isRekt = function()
 {
 	return this.damage >= this.maxDamage;
 };
-console.log(this.damage);
 
 /**
  * make the ship sink
