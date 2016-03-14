@@ -2,19 +2,38 @@
  * Created by Wim on 11-3-2016.
  */
 
-var Const = {}, gameWorld = {};
+const Const = {}, gameWorld = {};
 
-gameWorld.grid = {};
-gameWorld.ships = [];
-gameWorld.shipTitels = [];
-gameWorld.previewTites = [];
-gameWorld.selectedShipSize = 2;
-gameWorld.selectedShipRotation = 1;
-
-
-Const.availableShips = ['carrier', 'battleship', 'destroyer', 'submarine', 'patrolboat'];
+Const.availableShips = [
+    {
+        'type': 'carrier',
+        'size': 5,
+        'max': 1
+    },
+    {
+        'type': 'battleship',
+        'size': 4,
+        'max': 2
+    },
+    {
+        'type': 'destroyer',
+        'size': 3,
+        'max': 3
+    },
+    {
+        'type': 'submarine',
+        'size': 3,
+        'max': 3
+    },
+    {
+        'type': 'patrolboat',
+        'size': 2,
+        'max': 4
+    }
+];
 Const.player1 = 0;
 Const.player2 = 1;
+
 
 Const.empty = 0; //water
 Const.ship = 1; //boat	
@@ -22,6 +41,12 @@ Const.miss = 2; //shot missed
 Const.hit = 3;  //boat got hit
 Const.rekt = 4; //sunk ship
 
+gameWorld.grid = {};
+gameWorld.ships = [];
+gameWorld.shipTitels = [];
+gameWorld.previewTites = [];
+gameWorld.seletedShipType = Const.availableShips[4];
+gameWorld.selectedShipRotation = 1;
 /**
  * Game statistics to show
  * How many hits
@@ -68,28 +93,7 @@ function Ship(type, pos) {
     this.type = type;
     this.damage = 0;
 
-    switch (type) {
-        case 2:
-            this.shipLenght = type;
-            this.name = 'submarine';
-            break;
-        case 3:
-            this.shipLenght = type;
-            this.name = 'destroyer';
-            break;
-        case 4:
-            this.shipLenght = type;
-            this.name = 'battleship';
-            break;
-        case 5:
-            this.shipLenght = type;
-            this.name = 'carier';
-            break;
-        default:
-            this.shipLenght = type;
-            break;
-    }
-    this.maxDamage = this.shipLenght;
+    this.maxDamage = this.type.size;
     this.rekt = false;
     this.used = false;
 }
@@ -173,7 +177,7 @@ var Grid = function (height, width, titleX, titleY) {
         }
     };
 
-    this.removeFromDOM = function(){
+    this.removeFromDOM = function () {
         document.removeChild(this.container);
 
     }
@@ -181,7 +185,7 @@ var Grid = function (height, width, titleX, titleY) {
 
 //Called by cick event for a title
 var placeShip = function (title, pos) {
-    var ship = new Ship(gameWorld.selectedShipSize, pos);
+    var ship = new Ship(gameWorld.seletedShipType.size, pos);
     gameWorld.ships.push(ship);
 
     gameWorld.previewTites = [];
@@ -193,14 +197,14 @@ var placeShip = function (title, pos) {
                 break;
             }
 
-            for (var i = 0; i < gameWorld.selectedShipSize; i++) {
+            for (var i = 0; i < gameWorld.seletedShipType.size; i++) {
                 titles.push(Number(title.id) + i * 15);
             }
 
             var taken = titleTaken(titles);
 
             if (!taken) {
-                for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                for (i = 0; i < gameWorld.seletedShipType.size; i++) {
                     titleElem = document.getElementById(titles[i]);
                     titleElem.style.backgroundColor = "blue";
 
@@ -213,14 +217,14 @@ var placeShip = function (title, pos) {
                 break;
             }
 
-            for (i = 0; i < gameWorld.selectedShipSize; i++) {
+            for (i = 0; i < gameWorld.seletedShipType.size; i++) {
                 titles.push(Number(title.id) + i);
             }
 
             taken = titleTaken(titles);
 
             if (!taken) {
-                for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                for (i = 0; i < gameWorld.seletedShipType.size; i++) {
                     titleElem = document.getElementById(titles[i]);
                     titleElem.style.backgroundColor = "blue";
 
@@ -241,14 +245,14 @@ var previewShip = function (title, pos) {
                 break;
             }
 
-            for (var i = 0; i < gameWorld.selectedShipSize; i++) {
+            for (var i = 0; i < gameWorld.seletedShipType.size; i++) {
                 previewTitles.push(Number(title.id) + i * 15);
             }
 
             var taken = titleTaken(previewTitles);
 
             if (!taken) {
-                for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                for (i = 0; i < gameWorld.seletedShipType.size; i++) {
                     var id = Number(title.id) + i * 15;
 
                     titleElem = document.getElementById(id);
@@ -263,14 +267,14 @@ var previewShip = function (title, pos) {
                 break;
             }
 
-            for (i = 0; i < gameWorld.selectedShipSize; i++) {
+            for (i = 0; i < gameWorld.seletedShipType.size; i++) {
                 previewTitles.push(Number(title.id) + i);
             }
 
             taken = titleTaken(previewTitles);
 
             if (!taken) {
-                for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                for (i = 0; i < gameWorld.seletedShipType.size; i++) {
                     id = Number(title.id) + i;
 
                     titleElem = document.getElementById(id);
@@ -293,8 +297,8 @@ var resetPreviews = function () {
 };
 
 //called by a click event on a button
-var setShipSize = function (size) {
-    gameWorld.selectedShipSize = size;
+var setShipType = function (type) {
+    gameWorld.seletedShipType = Const.availableShips[type];
 };
 
 var setShipRotation = function (rotation) {
@@ -303,7 +307,7 @@ var setShipRotation = function (rotation) {
 
 var titleTaken = function (titles) {
     var taken = false;
-    for (i = 0; i < gameWorld.selectedShipSize; i++) {
+    for (i = 0; i < gameWorld.seletedShipType.size; i++) {
         if (gameWorld.shipTitels.indexOf(titles[i]) != -1) {
             taken = true;
         }
@@ -314,10 +318,10 @@ var titleTaken = function (titles) {
 var shipOutOFWorld = function (pos) {
     switch (gameWorld.selectedShipRotation) {
         case 0:
-            return pos.y + gameWorld.selectedShipSize > 15;
+            return pos.y + gameWorld.seletedShipType.size > 15;
             break;
         case 1:
-            return pos.x + gameWorld.selectedShipSize > 15;
+            return pos.x + gameWorld.seletedShipType.size > 15;
             break;
     }
 };
