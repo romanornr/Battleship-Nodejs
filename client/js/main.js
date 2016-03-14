@@ -2,8 +2,17 @@
  * Created by Wim on 11-3-2016.
  */
 
-var Const = {};
-Const.availableShips = ['battleship', 'carrier', 'destroyer', 'submarine','patrolboat'];
+var Const = {}, gameWorld = {};
+
+gameWorld.grid = {};
+gameWorld.ships = [];
+gameWorld.shipTitels = [];
+gameWorld.previewTites = [];
+gameWorld.selectedShipSize = 2;
+gameWorld.selectedShipRotation = 1;
+
+
+Const.availableShips = ['carrier', 'battleship', 'destroyer', 'submarine', 'patrolboat'];
 Const.player1 = 0;
 Const.player2 = 1;
 
@@ -15,41 +24,124 @@ Const.rekt = 4; //sunk ship
 
 /**
  * Game statistics to show
- * How many hits 
+ * How many hits
  * How many times player got hit
  * How many games got played
  * how many games got won
  * getting unique id or create one
  */
-function Statistics()
-{
-	this.taken = 0;
-	this.hits = 0;
+function Statistics() {
+    this.taken = 0;
+    this.hits = 0;
 
-	this.totalTaken = parseInt(localStorage.getItem('totalTaken'), 1) || 0;
-	this.totalHits = parseInt(localStorage.getItem(totalHits), 1) || 0;
-	this.gamesPlayed = parseInt(localStorage.getItem('gamesPlayed'), 1) || 0;
-	this.gamesWon = parseInt(localStorage.getItem('gamesWon'), 1) || 0;
-	this.uuid = localStorage.getItem('uuid') || this.createuuid();
+    this.totalTaken = parseInt(localStorage.getItem('totalTaken'), 1) || 0;
+    this.totalHits = parseInt(localStorage.getItem(totalHits), 1) || 0;
+    this.gamesPlayed = parseInt(localStorage.getItem('gamesPlayed'), 1) || 0;
+    this.gamesWon = parseInt(localStorage.getItem('gamesWon'), 1) || 0;
+    this.uuid = localStorage.getItem('uuid') || this.createuuid();
 }
 
-var grid = {}, shipTitles = [], shipSize = 2, previews = [];
+Statistics.prototype.incrementHits = function () {
+    this.hits++;
+};
+
+Statistics.prototype.incrementTaken = function () {
+    this.taken++;
+};
+
+Statistics.prototype.wonGame = function () {
+    this.gamesPlayed++;
+    this.gamesWon++;
+};
+
+Statistics.prototype.lostGame = function () {
+    this.gamesPlayed++;
+};
+
+/**
+ * Define ship objects
+ * constructor
+ * @param Ship type
+ */
+function Ship(type, pos) {
+    this.pos = pos;
+    this.type = type;
+    this.damage = 0;
+
+    switch (type) {
+        case 2:
+            this.shipLenght = type;
+            this.name = 'submarine';
+            break;
+        case 3:
+            this.shipLenght = type;
+            this.name = 'destroyer';
+            break;
+        case 4:
+            this.shipLenght = type;
+            this.name = 'battleship';
+            break;
+        case 5:
+            this.shipLenght = type;
+            this.name = 'carier';
+            break;
+        default:
+            this.shipLenght = type;
+            break;
+    }
+    this.maxDamage = this.shipLenght;
+    this.rekt = false;
+    this.used = false;
+}
+
+/**
+ * Increment damage the ship
+ * @return true
+ */
+Ship.prototype.incrementDamage = function () {
+    this.damage++;
+    if (this.isRekt()) {
+        this.rektShip()
+    }
+};
+
+/**
+ * Check to see if ship is rekt/sunk
+ * @return {Boolean}
+ */
+Ship.prototype.isRekt = function () {
+    return this.damage >= this.maxDamage;
+};
+
+/**
+ * make the ship sink
+ * @return {Boolean} [returns true]
+ */
+Ship.prototype.rektShip = function () {
+    this.damage = this.maxDamage;
+    this.rekt = true;
+};
 
 var Title = function (posX, posY, height, width, id) {
+    this.pos = {x: posX, y: posY};
+    this.height = height;
+    this.width = width;
+    this.id = id;
+
     this.clicked = false;
 
     this.elem = document.createElement("div");
     this.elem.className = "title";
     this.elem.id = id;
-    this.elem.style.width = (width - 4) + "px";
-    this.elem.style.height = (height - 4) + "px";
+    this.elem.style.width = (this.width - 4) + "px";
+    this.elem.style.height = (this.height - 4) + "px";
 
     this.elem.addEventListener("click", function () {
-        placeShip(this);
+        placeShip(this, {x: posX, y: posY});
     });
 
     this.elem.addEventListener("mouseover", function () {
-        previewShip(this);
+        previewShip(this, {x: posX, y: posY});
     });
 
     this.elem.addEventListener("mouseout", resetPreviews);
@@ -82,69 +174,149 @@ var Grid = function (height, width, titleX, titleY) {
     };
 };
 
-var placeShip = function (title) {
-    previews = [];
+//Called by cick event for a title
+var placeShip = function (title, pos) {
+    var ship = new Ship(gameWorld.selectedShipSize, pos);
+    gameWorld.ships.push(ship);
+
+    gameWorld.previewTites = [];
     var titles = [];
 
-    for (var i = 0; i < shipSize; i++) {
-        titles.push(Number(title.id) + i * 15);
-    }
+    switch (gameWorld.selectedShipRotation) {
+        case 0:
+            if (shipOutOFWorld(pos)) {
+                break;
+            }
 
-    var taken = titleTaken(titles);
+            for (var i = 0; i < gameWorld.selectedShipSize; i++) {
+                titles.push(Number(title.id) + i * 15);
+            }
 
-    if(!taken) {
-        for (i = 0; i < shipSize; i++) {
-            titleElem = document.getElementById(titles[i]);
-            titleElem.style.backgroundColor = "blue";
+            var taken = titleTaken(titles);
 
-            shipTitles.push(titles[i]);
-        }
+            if (!taken) {
+                for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                    titleElem = document.getElementById(titles[i]);
+                    titleElem.style.backgroundColor = "blue";
+
+                    gameWorld.shipTitels.push(titles[i]);
+                }
+            }
+            break;
+        case 1:
+            if (shipOutOFWorld(pos)) {
+                break;
+            }
+
+            for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                titles.push(Number(title.id) + i);
+            }
+
+            taken = titleTaken(titles);
+
+            if (!taken) {
+                for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                    titleElem = document.getElementById(titles[i]);
+                    titleElem.style.backgroundColor = "blue";
+
+                    gameWorld.shipTitels.push(titles[i]);
+                }
+            }
+            break;
     }
 };
 
-var previewShip = function (title) {
+//Called by mouseover event for a title
+var previewShip = function (title, pos) {
     var previewTitles = [];
 
-    for (var i = 0; i < shipSize; i++) {
-        previewTitles.push(Number(title.id) + i * 15);
-    }
+    switch (gameWorld.selectedShipRotation) {
+        case 0:
+            if (shipOutOFWorld(pos)) {
+                break;
+            }
 
-    var taken = titleTaken(previewTitles);
+            for (var i = 0; i < gameWorld.selectedShipSize; i++) {
+                previewTitles.push(Number(title.id) + i * 15);
+            }
 
-    if (!taken) {
-        for (i = 0; i < shipSize; i++) {
-            var id = Number(title.id) + i * 15;
+            var taken = titleTaken(previewTitles);
 
-            titleElem = document.getElementById(id);
-            titleElem.style.backgroundColor = "lightblue";
+            if (!taken) {
+                for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                    var id = Number(title.id) + i * 15;
 
-            previews.push(id);
-        }
+                    titleElem = document.getElementById(id);
+                    titleElem.style.backgroundColor = "lightblue";
+
+                    gameWorld.previewTites.push(id);
+                }
+            }
+            break;
+        case 1:
+            if (shipOutOFWorld(pos)) {
+                break;
+            }
+
+            for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                previewTitles.push(Number(title.id) + i);
+            }
+
+            taken = titleTaken(previewTitles);
+
+            if (!taken) {
+                for (i = 0; i < gameWorld.selectedShipSize; i++) {
+                    id = Number(title.id) + i;
+
+                    titleElem = document.getElementById(id);
+                    titleElem.style.backgroundColor = "lightblue";
+
+                    gameWorld.previewTites.push(id);
+                }
+            }
+            break;
     }
 };
 
-var titleTaken = function(titles){
+//Called by mouseout event for a title
+var resetPreviews = function () {
+    for (var i = 0; i < gameWorld.previewTites.length; i++) {
+        var elem = document.getElementById(gameWorld.previewTites[i]);
+        elem.style.backgroundColor = "red";
+    }
+    gameWorld.previewTites = [];
+};
+
+//called by a click event on a button
+var setShipSize = function (size) {
+    gameWorld.selectedShipSize = size;
+};
+
+var setShipRotation = function (rotation) {
+    gameWorld.selectedShipRotation = rotation;
+};
+
+var titleTaken = function (titles) {
     var taken = false;
-    for (i = 0; i < shipSize; i++) {
-        if (shipTitles.indexOf(titles[i]) != -1) {
+    for (i = 0; i < gameWorld.selectedShipSize; i++) {
+        if (gameWorld.shipTitels.indexOf(titles[i]) != -1) {
             taken = true;
         }
     }
     return taken;
 };
 
-var resetPreviews = function () {
-    for (var i = 0; i < previews.length; i++) {
-        var elem = document.getElementById(previews[i]);
-        elem.style.backgroundColor = "red";
+var shipOutOFWorld = function (pos) {
+    switch (gameWorld.selectedShipRotation) {
+        case 0:
+            return pos.y + gameWorld.selectedShipSize > 15;
+            break;
+        case 1:
+            return pos.x + gameWorld.selectedShipSize > 15;
+            break;
     }
-    previews = [];
 };
 
-var setShipSize = function (size) {
-    shipSize = size;
-};
-
-grid = new Grid(960, 960, 15, 15);
-grid.draw();
+gameWorld.grid = new Grid(960, 960, 15, 15);
+gameWorld.grid.draw();
 
