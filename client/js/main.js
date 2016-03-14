@@ -2,7 +2,15 @@
  * Created by Wim on 11-3-2016.
  */
 
-var Const = {};
+var Const = {}, gameWorld = {};
+
+gameWorld.grid = {};
+gameWorld.ships = [];
+gameWorld.shipTitels = [];
+gameWorld.previewTites = [];
+gameWorld.selectedShipSize = 2;
+
+
 Const.availableShips = ['carrier','battleship', 'destroyer', 'submarine','patrolboat'];
 Const.player1 = 0;
 Const.player2 = 1;
@@ -36,47 +44,55 @@ function Statistics()
 Statistics.prototype.incrementHits = function()
 {
 	this.hits++;
-}
+};
 
 Statistics.prototype.incrementTaken = function()
 {
 	this.taken++;
-}
+};
 
 Statistics.prototype.wonGame = function()
 {
 	this.gamesPlayed++;
 	this.gamesWon++;
-}
+};
 
 Statistics.prototype.lostGame = function()
 {
 	this.gamesPlayed++;
-}
+};
 
 /**
  * Define ship objects
  * constructor
  * @param Ship type
  */
-function Ship(type)
+function Ship(type, pos)
 {
+    this.pos = pos;
 	this.type = type;
 	this.damage = 0;
 
-	switch(this.type)
+	switch(type)
 	{
-		case Const.availableShips[0]:
-			this.shipLenght = 5;
+		case 2:
+			this.shipLenght = type;
+			this.name = 'submarine';
 			break;
-		case Const.availableShips[1]:
-			this.shipLenght = 4;
-		case Const.availableShips[2]:
-			this.shipLenght = 3;
-		case Const.availableShips[3]:
-			this.shipLenght = 2;
+		case 3:
+			this.shipLenght = type;
+			this.name = 'destroyer';
+            break;
+		case 4:
+			this.shipLenght = type;
+			this.name = 'battleship';
+            break;
+		case 5:
+			this.shipLenght = type;
+			this.name = 'carier';
+            break;
 		default:
-			this.shipLenght = 3;
+			this.shipLenght = type;
 			break;
 	}
 	this.maxDamage = this.shipLenght;
@@ -104,7 +120,6 @@ Ship.prototype.isRekt = function()
 {
 	return this.damage >= this.maxDamage;
 };
-console.log(this.damage);
 
 /**
  * make the ship sink
@@ -116,19 +131,22 @@ Ship.prototype.rektShip = function()
 	this.rekt = true;
 };
 
-var grid = {}, shipTitles = [], shipSize = 2, previews = [];
-
 var Title = function (posX, posY, height, width, id) {
+    this.pos = {x: posX, y: posY};
+    this.height = height;
+    this.width = width;
+    this.id = id;
+
     this.clicked = false;
 
     this.elem = document.createElement("div");
     this.elem.className = "title";
     this.elem.id = id;
-    this.elem.style.width = (width - 4) + "px";
-    this.elem.style.height = (height - 4) + "px";
+    this.elem.style.width = (this.width - 4) + "px";
+    this.elem.style.height = (this.height - 4) + "px";
 
     this.elem.addEventListener("click", function () {
-        placeShip(this);
+        placeShip(this, {x: posX, y: posY});
     });
 
     this.elem.addEventListener("mouseover", function () {
@@ -165,69 +183,77 @@ var Grid = function (height, width, titleX, titleY) {
     };
 };
 
-var placeShip = function (title) {
-    previews = [];
+//Called by cick event for a title
+var placeShip = function (title, pos) {
+    var ship = new Ship(gameWorld.selectedShipSize, pos);
+    gameWorld.ships.push(ship);
+
+    gameWorld.previewTites = [];
     var titles = [];
 
-    for (var i = 0; i < shipSize; i++) {
+    for (var i = 0; i < gameWorld.selectedShipSize; i++) {
         titles.push(Number(title.id) + i * 15);
     }
-
+console.log(ship);
     var taken = titleTaken(titles);
 
     if(!taken) {
-        for (i = 0; i < shipSize; i++) {
+        for (i = 0; i < gameWorld.selectedShipSize; i++) {
             titleElem = document.getElementById(titles[i]);
             titleElem.style.backgroundColor = "blue";
 
-            shipTitles.push(titles[i]);
+            gameWorld.shipTitels.push(titles[i]);
         }
     }
 };
 
+//Called by mouseover event for a title
 var previewShip = function (title) {
     var previewTitles = [];
 
-    for (var i = 0; i < shipSize; i++) {
+    for (var i = 0; i < gameWorld.selectedShipSize; i++) {
         previewTitles.push(Number(title.id) + i * 15);
     }
 
     var taken = titleTaken(previewTitles);
 
     if (!taken) {
-        for (i = 0; i < shipSize; i++) {
+        for (i = 0; i < gameWorld.selectedShipSize; i++) {
             var id = Number(title.id) + i * 15;
 
             titleElem = document.getElementById(id);
             titleElem.style.backgroundColor = "lightblue";
 
-            previews.push(id);
+            gameWorld.previewTites.push(id);
         }
     }
 };
 
+//Called by mouseout event for a title
+var resetPreviews = function () {
+    for (var i = 0; i < gameWorld.previewTites.length; i++) {
+        var elem = document.getElementById(gameWorld.previewTites[i]);
+        elem.style.backgroundColor = "red";
+    }
+    gameWorld.previewTites = [];
+};
+
+var setShipSize = function (size) {
+    gameWorld.selectedShipSize = size;
+};
+
+
+//called by a click event on a button
 var titleTaken = function(titles){
     var taken = false;
-    for (i = 0; i < shipSize; i++) {
-        if (shipTitles.indexOf(titles[i]) != -1) {
+    for (i = 0; i < gameWorld.selectedShipSize; i++) {
+        if (gameWorld.shipTitels.indexOf(titles[i]) != -1) {
             taken = true;
         }
     }
     return taken;
 };
 
-var resetPreviews = function () {
-    for (var i = 0; i < previews.length; i++) {
-        var elem = document.getElementById(previews[i]);
-        elem.style.backgroundColor = "red";
-    }
-    previews = [];
-};
-
-var setShipSize = function (size) {
-    shipSize = size;
-};
-
-grid = new Grid(960, 960, 15, 15);
-grid.draw();
+gameWorld.grid = new Grid(960, 960, 15, 15);
+gameWorld.grid.draw();
 
