@@ -278,7 +278,8 @@ var setShipSize = function (size) {
 
 var setShipRotation = function (rotation) {
     gameWorld.selectedShipRotation = rotation;
-}
+};
+
 var titleTaken = function (titles) {
     var taken = false;
     for (i = 0; i < gameWorld.selectedShipSize; i++) {
