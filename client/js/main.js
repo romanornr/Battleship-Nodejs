@@ -141,7 +141,7 @@ var Title = function (posX, posY, height, width, id) {
     });
 
     this.elem.addEventListener("mouseover", function () {
-        previewShip(this);
+        previewShip(this, {x: posX, y: posY});
     });
 
     this.elem.addEventListener("mouseout", resetPreviews);
@@ -184,6 +184,10 @@ var placeShip = function (title, pos) {
 
     switch (gameWorld.selectedShipRotation) {
         case 0:
+            if (shipOutOFWorld(pos)) {
+                break;
+            }
+
             for (var i = 0; i < gameWorld.selectedShipSize; i++) {
                 titles.push(Number(title.id) + i * 15);
             }
@@ -200,6 +204,10 @@ var placeShip = function (title, pos) {
             }
             break;
         case 1:
+            if (shipOutOFWorld(pos)) {
+                break;
+            }
+            
             for (i = 0; i < gameWorld.selectedShipSize; i++) {
                 titles.push(Number(title.id) + i);
             }
@@ -219,11 +227,15 @@ var placeShip = function (title, pos) {
 };
 
 //Called by mouseover event for a title
-var previewShip = function (title) {
+var previewShip = function (title, pos) {
     var previewTitles = [];
 
     switch (gameWorld.selectedShipRotation) {
         case 0:
+            if (shipOutOFWorld(pos)) {
+                break;
+            }
+
             for (var i = 0; i < gameWorld.selectedShipSize; i++) {
                 previewTitles.push(Number(title.id) + i * 15);
             }
@@ -242,6 +254,10 @@ var previewShip = function (title) {
             }
             break;
         case 1:
+            if (shipOutOFWorld(pos)) {
+                break;
+            }
+
             for (i = 0; i < gameWorld.selectedShipSize; i++) {
                 previewTitles.push(Number(title.id) + i);
             }
@@ -288,6 +304,19 @@ var titleTaken = function (titles) {
         }
     }
     return taken;
+};
+
+var shipOutOFWorld = function (pos) {
+    switch (gameWorld.selectedShipRotation) {
+        case 0:
+            if (pos.y + gameWorld.selectedShipSize > 15) {
+                return true
+            }
+            break;
+        case 1:
+            return false
+            break;
+    }
 };
 
 gameWorld.grid = new Grid(960, 960, 15, 15);
