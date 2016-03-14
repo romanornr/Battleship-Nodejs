@@ -97,6 +97,7 @@ function Ship(type, pos)
 	}
 	this.maxDamage = this.shipLenght;
 	this.rekt = false;
+	this.used = false;
 }
 
 /**
