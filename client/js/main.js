@@ -207,7 +207,7 @@ var placeShip = function (title, pos) {
             if (shipOutOFWorld(pos)) {
                 break;
             }
-            
+
             for (i = 0; i < gameWorld.selectedShipSize; i++) {
                 titles.push(Number(title.id) + i);
             }
@@ -309,12 +309,10 @@ var titleTaken = function (titles) {
 var shipOutOFWorld = function (pos) {
     switch (gameWorld.selectedShipRotation) {
         case 0:
-            if (pos.y + gameWorld.selectedShipSize > 15) {
-                return true
-            }
+            return pos.y + gameWorld.selectedShipSize > 15;
             break;
         case 1:
-            return false
+            return pos.x + gameWorld.selectedShipSize > 15;
             break;
     }
 };
