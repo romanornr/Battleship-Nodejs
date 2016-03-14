@@ -73,22 +73,26 @@ function Ship(type, pos)
 	this.type = type;
 	this.damage = 0;
 
-	switch(this.type)
+	switch(type)
 	{
-		case Const.availableShips[0]:
-			this.shipLenght = 5;
+		case 2:
+			this.shipLenght = type;
+			this.name = 'submarine';
 			break;
-		case Const.availableShips[1]:
-			this.shipLenght = 4;
+		case 3:
+			this.shipLenght = type;
+			this.name = 'destroyer';
             break;
-		case Const.availableShips[2]:
-			this.shipLenght = 3;
+		case 4:
+			this.shipLenght = type;
+			this.name = 'battleship';
             break;
-		case Const.availableShips[3]:
-			this.shipLenght = 2;
+		case 5:
+			this.shipLenght = type;
+			this.name = 'carier';
             break;
 		default:
-			this.shipLenght = 3;
+			this.shipLenght = type;
 			break;
 	}
 	this.maxDamage = this.shipLenght;
@@ -190,7 +194,7 @@ var placeShip = function (title, pos) {
     for (var i = 0; i < gameWorld.selectedShipSize; i++) {
         titles.push(Number(title.id) + i * 15);
     }
-
+console.log(ship);
     var taken = titleTaken(titles);
 
     if(!taken) {
