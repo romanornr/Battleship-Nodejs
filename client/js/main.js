@@ -172,6 +172,11 @@ var Grid = function (height, width, titleX, titleY) {
             }
         }
     };
+
+    this.removeFromDOM = function(){
+        document.removeChild(this.container);
+
+    }
 };
 
 //Called by cick event for a title
