@@ -309,10 +309,12 @@ var setShipType = function (type) {
     gameWorld.seletedShipType = Const.availableShips[type];
 };
 
+//sets the ship rotation. called by a button
 var setShipRotation = function (rotation) {
     gameWorld.selectedShipRotation = rotation;
 };
 
+//checks if a array of titles are already taken
 var titleTaken = function (titles) {
     var taken = false;
     for (i = 0; i < gameWorld.seletedShipType.size; i++) {
@@ -323,6 +325,7 @@ var titleTaken = function (titles) {
     return taken;
 };
 
+//check if a ship is out the world
 var shipOutOFWorld = function (pos) {
     switch (gameWorld.selectedShipRotation) {
         case 0:
@@ -334,9 +337,9 @@ var shipOutOFWorld = function (pos) {
     }
 };
 
+//checks if the max amount of a ship is violated
 var maxAmountOfType = function () {
     var amount = 0;
-    console.log(gameWorld.ships);
     for(var i = 0; i <gameWorld.ships.length; i++){
         if(gameWorld.ships[i].type.type == gameWorld.seletedShipType.type){
             amount++;
