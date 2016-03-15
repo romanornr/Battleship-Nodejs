@@ -9,3 +9,32 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+#buttons{
+    float: left;
+    width: 200px;
+}
+
+button{
+    width: 200px;
+    height: 40px;
+    margin-bottom: 10px;
+
+    border: 2px lightblue solid;
+    border-radius: 5px;
+    background-color: white;
+}
+
+button:hover {
+    background-color: lightgrey;
+}
+
+h1{
+    text-align: center;
+    font-size: 50px;
+    font-weight: normal;
+}
+
+body {
+    font-family: 'Oswald', sans-serif;
+}

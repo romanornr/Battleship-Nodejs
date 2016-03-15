@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <title>game</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'></head>
 <body>
-<div id="gridButtons">
-    <h1>Klik om schepen te plaatsen</h1>
+<h1>Klik om schepen te plaatsen</h1>
+
+<div id="buttons">
     <button onclick="setShipType(0)">vliegdekschip</button>
     <button onclick="setShipType(1)">slagschip</button>
     <button onclick="setShipType(2)">torpedojager</button>
     <button onclick="setShipType(3)">onderzeeboot</button>
     <button onclick="setShipType(4)">patrouilleboot</button>
+    <button onclick="setShipRotation(0)">vertical</button>
+    <button onclick="setShipRotation(1)">horizontal</button>
 </div>
-<button onclick="setShipRotation(0)">vertical</button>
-<button onclick="setShipRotation(1)">horizontal</button>
+
 <script src="js/main.js"></script>
 </body>
 </html>
