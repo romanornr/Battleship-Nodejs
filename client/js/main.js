@@ -127,6 +127,13 @@ Ship.prototype.rektShip = function () {
     this.rekt = true;
 };
 
+/**
+ * @param title returns title object from grid
+ * @param click place the ship
+ * @param mousover, gives color before placing
+ * @param mousout, gives color red (cancel)
+ * @param draw, draws title in the grid
+ */
 var Title = function (posX, posY, height, width, id) {
     this.pos = {x: posX, y: posY};
     this.height = height;
@@ -156,6 +163,14 @@ var Title = function (posX, posY, height, width, id) {
     };
 };
 
+/**
+ * @param grid 
+ * @return {object} [grid object]
+ * 
+ * @param draw [draws the grid in the dom]
+ * @return {void}
+ * @param removeFromDOM [removes ship from dom]
+ */
 var Grid = function (height, width, titleX, titleY) {
     this.titleWidth = width / titleX;
     this.titleHeight = height / titleY;
@@ -184,7 +199,12 @@ var Grid = function (height, width, titleX, titleY) {
     }
 };
 
-//Called by cick event for a title
+/**
+ * @param  placeShip [placing ship on the board]
+ * @return { void } 
+ * 
+ * @param  gameWorld.selectedShipRotation [rotation from ships]
+ */
 var placeShip = function (title, pos) {
     if (maxAmountOfType()) {
         return;
@@ -244,7 +264,10 @@ var placeShip = function (title, pos) {
 
 };
 
-//Called by mouseover event for a title
+/**
+ * @param  previewShip 
+ * @return { void} [shows a preview of the ship]
+ */
 var previewShip = function (title, pos) {
     if (maxAmountOfType()) {
         return;
@@ -300,7 +323,10 @@ var previewShip = function (title, pos) {
     }
 };
 
-//Called by mouseout event for a title
+/**
+ * @return {reset Previews}
+ * @return { void} [reset the previews of ships]
+ */
 var resetPreviews = function () {
     for (var i = 0; i < gameWorld.previewTites.length; i++) {
         var elem = document.getElementById(gameWorld.previewTites[i]);
@@ -309,7 +335,10 @@ var resetPreviews = function () {
     gameWorld.previewTites = [];
 };
 
-//called by a click event on a button
+/**
+ * @param {setShipType}
+ * @return { void } [set the var to a ship type]
+ */
 var setShipType = function (type) {
     gameWorld.seletedShipType = Const.availableShips[type];
 };
@@ -319,7 +348,10 @@ var setShipRotation = function (rotation) {
     gameWorld.selectedShipRotation = rotation;
 };
 
-//checks if a array of titles are already taken
+/**
+ * @param  {titleTaken}
+ * @return {[boolean]} [check if the cordinate of a placing ship is taken]
+ */
 var titleTaken = function (titles) {
     var taken = false;
     for (i = 0; i < gameWorld.seletedShipType.size; i++) {
@@ -330,7 +362,10 @@ var titleTaken = function (titles) {
     return taken;
 };
 
-//check if a ship is out the world
+/**
+ * @param  {shipOutOFWorld}
+ * @return {bool} [Check if the ship is without the world]
+ */
 var shipOutOFWorld = function (pos) {
     switch (gameWorld.selectedShipRotation) {
         case 0:
@@ -342,7 +377,10 @@ var shipOutOFWorld = function (pos) {
     }
 };
 
-//checks if the max amount of a ship is violated
+/**
+ * @return {maxAmountOfType}
+ * @return {boolean} [check if maximum amounts of shiptype is used]
+ */
 var maxAmountOfType = function () {
     var amount = 0;
     for (var i = 0; i < gameWorld.ships.length; i++) {
@@ -355,6 +393,12 @@ var maxAmountOfType = function () {
 };
 
 //contains the grid that shows the ships of the player. draw() creates the grid on the DOM
+/**
+ * @param {OwnShipGrad}
+ * @return {object} [returns a grid witch contains the ships of the player]
+ * @param {draw}
+ * @return {void} [draws own ships on the grid]
+ */
 var OwnShipGrid = function (ships, shipTitles) {
     this.ships = ships;
 
@@ -388,6 +432,10 @@ var OwnShipGrid = function (ships, shipTitles) {
 };
 
 //this is the grid on wich the player can shoot
+/**
+ * @param TargetGrid [Is the enemy grid, where a player can aim]
+ * @param {draw} [Puts the grid in the DOM}
+ */
 var TargetGrid = function () {
     this.elem = document.createElement("div");
     this.elem.id = "shootGrid";
@@ -405,6 +453,10 @@ var TargetGrid = function () {
     };
 };
 
+/**
+ * @param {TargetTitle}
+ * @returns { object } [Target Grid]
+ */
 var TargetGridTitle = function(elem, x, y){
     var title = document.createElement("div");
     title.className = "title shootTitle";
@@ -416,11 +468,16 @@ var TargetGridTitle = function(elem, x, y){
     title.addEventListener("click", function (){ shoot(pos)});
 };
 
+/**
+ * @param resetGame [refresh the page (reset)]
+ */
 var resetGame = function () {
     location.reload();
 };
 
-//call this function as the player has finished placing his ship
+/**
+ * @return { void } [initialize the targetplayer his grid]
+ */
 var startStageTwo = function () {
     document.body.removeChild(document.getElementById("grid"));
 
