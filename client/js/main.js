@@ -185,12 +185,11 @@ var Grid = function (height, width, titleX, titleY) {
 
 //Called by cick event for a title
 var placeShip = function (title, pos) {
-    if(maxAmountOfType( )){
+    if(maxAmountOfType()){
         return;
     }
 
     var ship = new Ship(gameWorld.seletedShipType, pos);
-    gameWorld.ships.push(ship);
 
     gameWorld.previewTites = [];
     var titles = [];
@@ -200,6 +199,8 @@ var placeShip = function (title, pos) {
             if (shipOutOFWorld(pos)) {
                 break;
             }
+
+            gameWorld.ships.push(ship);
 
             for (var i = 0; i < gameWorld.seletedShipType.size; i++) {
                 titles.push(Number(title.id) + i * 15);
@@ -221,6 +222,8 @@ var placeShip = function (title, pos) {
                 break;
             }
 
+            gameWorld.ships.push(ship);
+
             for (i = 0; i < gameWorld.seletedShipType.size; i++) {
                 titles.push(Number(title.id) + i);
             }
@@ -237,6 +240,7 @@ var placeShip = function (title, pos) {
             }
             break;
     }
+
 };
 
 //Called by mouseover event for a title
