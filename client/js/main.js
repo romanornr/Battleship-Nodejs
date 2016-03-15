@@ -355,7 +355,7 @@ var maxAmountOfType = function () {
 };
 
 //contains the grid that shows the ships of the player. draw() creates the grid on the DOM
-var OwnShipGrid = function (ships) {
+var OwnShipGrid = function (ships, shipTitles) {
     this.ships = ships;
 
     this.elem = document.createElement("div");
@@ -366,6 +366,7 @@ var OwnShipGrid = function (ships) {
 
         document.body.appendChild(this.elem);
 
+        var id = 0;
         for (var x = 0; x < 15; x++) {
             for (var y = 0; y < 15; y++) {
                 var title = document.createElement("div");
@@ -373,7 +374,16 @@ var OwnShipGrid = function (ships) {
                 title.style.width = "26px";
                 title.style.height = "26px";
 
+                for(var z = 0; z < shipTitles.length; z++){
+                    console.log(id, shipTitles[z]);
+                    if(id == shipTitles[z]){
+                        title.style.backgroundColor = 'blue';
+                    }
+                }
+
                 this.elem.appendChild(title);
+
+                id++;
             }
         }
     };
@@ -420,7 +430,7 @@ var resetGame = function () {
 var startStageTwo = function () {
     document.body.removeChild(document.getElementById("grid"));
 
-    var ownShips = new OwnShipGrid(gameWorld.shipTitels);
+    var ownShips = new OwnShipGrid(gameWorld.ships, gameWorld.shipTitels);
     ownShips.draw();
 
     gameWorld = undefined;
