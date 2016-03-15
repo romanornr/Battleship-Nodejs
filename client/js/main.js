@@ -362,8 +362,6 @@ var OwnShipGrid = function (ships, shipTitles) {
     this.elem.id = "ownShips";
 
     this.draw = function () {
-        console.log(this.shipstitles);
-
         document.body.appendChild(this.elem);
 
         var id = 0;
@@ -427,7 +425,9 @@ var startStageTwo = function () {
     document.body.removeChild(document.getElementById("grid"));
 
     var ownShips = new OwnShipGrid(gameWorld.ships, gameWorld.shipTitels);
-    ownShips.draw();
+    
+    var temp = ownShips.draw();
+    temp = undefined;
     console.log(ownShips);
 
     gameWorld = undefined;
@@ -439,18 +439,19 @@ var startStageTwo = function () {
 
 var shoot = function(pos, targetPlayer)
 {
-    var targetGrid = new targetGrid;
+    var targetGrid = targetGrid;
+    console.log(pos);
     var targetPlayer;
 
-    if (targetPlayer == Const.player1)
-    {
-        targetGrid = this.player1Grid;
-        targetShip = this.player1Ship;
+    // if (targetPlayer == Const.player1)
+    // {
+    //     targetGrid = this.player1Grid;
+    //     targetShip = this.player1Ship;
 
-    }else if (targetPlayer == Const.player2){
-        targetGrid = this.player2Grid;
-        targetShip = this.player2Ship;
-    }
+    // }else if (targetPlayer == Const.player2){
+    //     targetGrid = this.player2Grid;
+    //     targetShip = this.player2Ship;
+    // }
 
     if (targetGrid.isRekt(pos))
     {
