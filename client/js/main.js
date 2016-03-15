@@ -261,7 +261,7 @@ var placeShip = function (title, pos) {
             }
             break;
     }
-
+    enableStartButton();
 };
 
 /**
@@ -487,7 +487,9 @@ var startStageTwo = function () {
     temp = undefined;
     console.log(ownShips);
 
-    gameWorld = undefined;
+    gameWorld = {};
+
+    gameWorld.shootedTitles = [];
 
     var targetGrid = new TargetGrid();
     targetGrid.draw();
@@ -518,6 +520,12 @@ var shoot = function(pos, targetPlayer)
         return null;
     }
 
+};
+
+var enableStartButton = function(){
+    if(gameWorld.ships.length >= 10){
+        document.getElementsByClassName("startButton")[0].disabled = false;
+    }
 };
 
 
