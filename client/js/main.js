@@ -221,7 +221,6 @@ var placeShip = function (title, pos) {
                 break;
             }
 
-            gameWorld.ships.push(ship);
 
             for (var i = 0; i < gameWorld.seletedShipType.size; i++) {
                 titles.push(Number(title.id) + i * 15);
@@ -236,14 +235,13 @@ var placeShip = function (title, pos) {
 
                     gameWorld.shipTitels.push(titles[i]);
                 }
+                gameWorld.ships.push(ship);
             }
             break;
         case 1:
             if (shipOutOFWorld(pos)) {
                 break;
             }
-
-            gameWorld.ships.push(ship);
 
             for (i = 0; i < gameWorld.seletedShipType.size; i++) {
                 titles.push(Number(title.id) + i);
@@ -258,6 +256,7 @@ var placeShip = function (title, pos) {
 
                     gameWorld.shipTitels.push(titles[i]);
                 }
+                gameWorld.ships.push(ship);
             }
             break;
     }
@@ -482,8 +481,6 @@ var resetGame = function () {
 var startStageTwo = function () {
     document.body.removeChild(document.getElementById("grid"));
 
-    gameWorld = {};
-    
     gameWorld.shootedTitles = [];
 
     var shipTitles = gameWorld.shipTitels;
