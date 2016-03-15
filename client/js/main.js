@@ -186,7 +186,7 @@ var Grid = function (height, width, titleX, titleY) {
 
 //Called by cick event for a title
 var placeShip = function (title, pos) {
-    if(maxAmountOfType()){
+    if (maxAmountOfType()) {
         return;
     }
 
@@ -246,7 +246,7 @@ var placeShip = function (title, pos) {
 
 //Called by mouseover event for a title
 var previewShip = function (title, pos) {
-    if(maxAmountOfType()){
+    if (maxAmountOfType()) {
         return;
     }
 
@@ -345,8 +345,8 @@ var shipOutOFWorld = function (pos) {
 //checks if the max amount of a ship is violated
 var maxAmountOfType = function () {
     var amount = 0;
-    for(var i = 0; i <gameWorld.ships.length; i++){
-        if(gameWorld.ships[i].type.type == gameWorld.seletedShipType.type){
+    for (var i = 0; i < gameWorld.ships.length; i++) {
+        if (gameWorld.ships[i].type.type == gameWorld.seletedShipType.type) {
             amount++;
         }
     }
@@ -355,19 +355,19 @@ var maxAmountOfType = function () {
 };
 
 //contains the grid that shows the ships of the player. draw() creates the grid on the DOM
-var OwnShipGrid = function(ships){
+var OwnShipGrid = function (ships) {
     this.ships = ships;
 
     this.elem = document.createElement("div");
-    this.elem.id= "ownShips";
+    this.elem.id = "ownShips";
 
-    this.draw = function(){
+    this.draw = function () {
         console.log(this.shipstitles);
 
         document.body.appendChild(this.elem);
 
-        for(var x  = 0; x < 15; x++){
-            for(var y = 0; y < 15; y++){
+        for (var x = 0; x < 15; x++) {
+            for (var y = 0; y < 15; y++) {
                 var title = document.createElement("div");
                 title.className = "title";
                 title.style.width = "26px";
@@ -380,43 +380,44 @@ var OwnShipGrid = function(ships){
 };
 
 //this is the grid on wich the player can shoot
-var ShootGrid = function(){
+var TargetGrid = function () {
     this.elem = document.createElement("div");
-    this.elem.id= "shootGrid";
+    this.elem.id = "shootGrid";
 
-    this.draw = function(){
+    this.draw = function () {
         console.log(this.shipstitles);
 
         document.body.appendChild(this.elem);
 
-        for(var x  = 0; x < 15; x++){
-            for(var y = 0; y < 15; y++){
-                var title = document.createElement("div");
-                title.className = "title shootTitle";
-                title.style.width = "26px";
-                title.style.height = "26px";
-
-                this.elem.appendChild(title);
-
-                this.elem.addEventListener("click", function (){
-                    shoot(this);
-                });
-
+        for (var x = 0; x < 15; x++) {
+            for (var y = 0; y < 15; y++) {
+                var title = new ownShipGridTitle(this.elem, x, y);
             }
         }
     };
 };
 
-gameWorld.grid = new Grid(960, 960, 15, 15);
-gameWorld.grid.draw();
+var ownShipGridTitle = function(elem, x, y){
+    var title = document.createElement("div");
+    title.className = "title shootTitle";
+    title.style.width = "26px";
+    title.style.height = "26px";
 
-var resetGame = function()
-{
-	location.reload();
+    elem.appendChild(title);
+    var pos = {'x': x, 'y': y};
+    title.addEventListener("click", function (){ shoot(pos)});
+};
+
+var shoot = function (pos) {
+    console.log(pos);
+};
+
+var resetGame = function () {
+    location.reload();
 };
 
 //call this function as the player has finished placing his ship
-var startStageTwo = function(){
+var startStageTwo = function () {
     document.body.removeChild(document.getElementById("grid"));
 
     var ownShips = new OwnShipGrid(gameWorld.shipTitels);
@@ -424,7 +425,10 @@ var startStageTwo = function(){
 
     gameWorld = undefined;
 
-    var shootGrid = new ShootGrid();
+    var targetGrid = new TargetGrid();
     shootGrid.draw();
 
 };
+
+gameWorld.grid = new Grid(960, 960, 15, 15);
+gameWorld.grid.draw();
