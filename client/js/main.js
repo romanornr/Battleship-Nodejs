@@ -354,10 +354,77 @@ var maxAmountOfType = function () {
     return amount >= gameWorld.seletedShipType.max;
 };
 
+//contains the grid that shows the ships of the player. draw() creates the grid on the DOM
+var OwnShipGrid = function(ships){
+    this.ships = ships;
+
+    this.elem = document.createElement("div");
+    this.elem.id= "ownShips";
+
+    this.draw = function(){
+        console.log(this.shipstitles);
+
+        document.body.appendChild(this.elem);
+
+        for(var x  = 0; x < 15; x++){
+            for(var y = 0; y < 15; y++){
+                var title = document.createElement("div");
+                title.className = "title";
+                title.style.width = "26px";
+                title.style.height = "26px";
+
+                this.elem.appendChild(title);
+            }
+        }
+    };
+};
+
+//this is the grid on wich the player can shoot
+var ShootGrid = function(){
+    this.elem = document.createElement("div");
+    this.elem.id= "shootGrid";
+
+    this.draw = function(){
+        console.log(this.shipstitles);
+
+        document.body.appendChild(this.elem);
+
+        for(var x  = 0; x < 15; x++){
+            for(var y = 0; y < 15; y++){
+                var title = document.createElement("div");
+                title.className = "title shootTitle";
+                title.style.width = "26px";
+                title.style.height = "26px";
+
+                this.elem.appendChild(title);
+
+                this.elem.addEventListener("click", function (){
+                    shoot(this);
+                });
+
+            }
+        }
+    };
+};
+
 gameWorld.grid = new Grid(960, 960, 15, 15);
 gameWorld.grid.draw();
 
 var resetGame = function()
 {
 	location.reload();
+};
+
+//call this function as the player has finished placing his ship
+var startStageTwo = function(){
+    document.body.removeChild(document.getElementById("grid"));
+
+    var ownShips = new OwnShipGrid(gameWorld.shipTitels);
+    ownShips.draw();
+
+    gameWorld = undefined;
+
+    var shootGrid = new ShootGrid();
+    shootGrid.draw();
+
 };
