@@ -101,7 +101,7 @@ function Ship(type, pos) {
 
 /**
  * Increment damage the ship
- * @return true
+ * @return {boolean}
  */
 Ship.prototype.incrementDamage = function () {
     this.damage++;
@@ -401,6 +401,7 @@ var maxAmountOfType = function () {
  */
 var OwnShipGrid = function (ships, shipTitles) {
     this.ships = ships;
+    this.shipTitles = shipTitles;
 
     this.elem = document.createElement("div");
     this.elem.id = "ownShips";
@@ -481,24 +482,32 @@ var resetGame = function () {
 var startStageTwo = function () {
     document.body.removeChild(document.getElementById("grid"));
 
-    var ownShips = new OwnShipGrid(gameWorld.ships, gameWorld.shipTitels);
-    
-    var temp = ownShips.draw();
-    temp = undefined;
-    console.log(ownShips);
+    console.log(gameWorld);
 
+<<<<<<< HEAD
     gameWorld = {};
 
     gameWorld.shootedTitles = [];
+=======
+    var shipTitles = gameWorld.shipTitels;
+    var ships = gameWorld.ships;
+>>>>>>> 15bccd4ead1039548008bb606ff36247bd26f070
 
-    var targetGrid = new TargetGrid();
-    targetGrid.draw();
+    gameWorld = {};
+    gameWorld.ownShipsGrid = new OwnShipGrid(ships, shipTitles);
+
+    gameWorld.ownShipsGrid.draw();
+    console.log(gameWorld.ownShipsGrid);
+
+    gameWorld.targetGrid = new TargetGrid();
+    gameWorld.targetGrid.draw();
 
 };
 
-var shoot = function(pos, targetPlayer)
+var shoot = function(pos, targetPlayer, targetGrid)
 {
-    var targetGrid = targetGrid;
+    //var targetGrid = targetGrid;
+    //console.log(targetGrid);
     console.log(pos);
     var targetPlayer;
 
