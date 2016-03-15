@@ -10,6 +10,7 @@ var app = require('express')();
 		res.sendFile(__dirname + '/index.html');
 	});
 
+
 var players = {};
 var rooms = ['ship'];
 
