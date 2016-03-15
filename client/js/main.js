@@ -518,7 +518,7 @@ var shoot = function(pos, targetPlayer)
         return null;
     }
 
-}
+};
 
 
 gameWorld.grid = new Grid(960, 960, 15, 15);

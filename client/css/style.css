@@ -36,9 +36,18 @@ button{
     float: left;
 }
 
-.rotateButton {
+.rotateButton, .resetButton, .startButton {
     width: 150px;
 }
+
+.startButton{
+    background-color: lightgreen;
+}
+
+#resetButton {
+    background-color: lightcoral;
+}
+
 button:hover {
     background-color: lightgrey;
 }
