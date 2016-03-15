@@ -6,13 +6,14 @@
 }
 
 #grid {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 25px;
+    float: left;
 }
 
 #buttons{
     float: left;
     width: 325px;
+    margin: 25px;
 
     border: 2px lightgrey solid;
     border-radius: 10px;
