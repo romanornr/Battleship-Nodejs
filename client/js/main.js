@@ -426,9 +426,11 @@ var startStageTwo = function () {
     gameWorld = undefined;
 
     var targetGrid = new TargetGrid();
-    shootGrid.draw();
+    targetGrid.draw();
 
 };
+
+
 
 gameWorld.grid = new Grid(960, 960, 15, 15);
 gameWorld.grid.draw();
