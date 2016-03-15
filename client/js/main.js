@@ -413,8 +413,8 @@ var OwnShipGrid = function (ships, shipTitles) {
             for (var y = 0; y < 15; y++) {
                 var title = document.createElement("div");
                 title.className = "title";
-                title.style.width = "26px";
-                title.style.height = "26px";
+                title.style.width = "28px";
+                title.style.height = "28px";
 
                 for(var z = 0; z < shipTitles.length; z++){
                     console.log(id, shipTitles[z]);
@@ -460,8 +460,8 @@ var TargetGrid = function () {
 var TargetGridTitle = function(elem, x, y){
     var title = document.createElement("div");
     title.className = "title shootTitle";
-    title.style.width = "26px";
-    title.style.height = "26px";
+    title.style.width = "28px";
+    title.style.height = "28px";
 
     elem.appendChild(title);
     var pos = {'x': x, 'y': y};
