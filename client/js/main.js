@@ -357,3 +357,7 @@ var maxAmountOfType = function () {
 gameWorld.grid = new Grid(960, 960, 15, 15);
 gameWorld.grid.draw();
 
+var resetGame = function()
+{
+	location.reload();
+};
