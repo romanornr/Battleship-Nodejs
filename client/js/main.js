@@ -401,13 +401,13 @@ var TargetGrid = function () {
 
         for (var x = 0; x < 15; x++) {
             for (var y = 0; y < 15; y++) {
-                var title = new ownShipGridTitle(this.elem, x, y);
+                var title = new TargetGridTitle(this.elem, x, y);
             }
         }
     };
 };
 
-var ownShipGridTitle = function(elem, x, y){
+var TargetGridTitle = function(elem, x, y){
     var title = document.createElement("div");
     title.className = "title shootTitle";
     title.style.width = "26px";
@@ -416,10 +416,6 @@ var ownShipGridTitle = function(elem, x, y){
     elem.appendChild(title);
     var pos = {'x': x, 'y': y};
     title.addEventListener("click", function (){ shoot(pos)});
-};
-
-var shoot = function (pos) {
-    console.log(pos);
 };
 
 var resetGame = function () {
@@ -432,6 +428,7 @@ var startStageTwo = function () {
 
     var ownShips = new OwnShipGrid(gameWorld.ships, gameWorld.shipTitels);
     ownShips.draw();
+    console.log(ownShips);
 
     gameWorld = undefined;
 
@@ -440,6 +437,30 @@ var startStageTwo = function () {
 
 };
 
+var shoot = function(pos, targetPlayer)
+{
+    var targetGrid = new targetGrid;
+    var targetPlayer;
+
+    if (targetPlayer == Const.player1)
+    {
+        targetGrid = this.player1Grid;
+        targetShip = this.player1Ship;
+
+    }else if (targetPlayer == Const.player2){
+        targetGrid = this.player2Grid;
+        targetShip = this.player2Ship;
+    }
+
+    if (targetGrid.isRekt(pos))
+    {
+        return null;
+
+    }else if (targetGrid.isMissed(pos)){
+        return null;
+    }
+
+}
 
 
 gameWorld.grid = new Grid(960, 960, 15, 15);
