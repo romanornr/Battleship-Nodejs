@@ -482,16 +482,12 @@ var resetGame = function () {
 var startStageTwo = function () {
     document.body.removeChild(document.getElementById("grid"));
 
-    console.log(gameWorld);
-
-<<<<<<< HEAD
     gameWorld = {};
-
+    
     gameWorld.shootedTitles = [];
-=======
+
     var shipTitles = gameWorld.shipTitels;
     var ships = gameWorld.ships;
->>>>>>> 15bccd4ead1039548008bb606ff36247bd26f070
 
     gameWorld = {};
     gameWorld.ownShipsGrid = new OwnShipGrid(ships, shipTitles);
