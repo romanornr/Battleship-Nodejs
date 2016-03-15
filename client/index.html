@@ -5,18 +5,26 @@
     <title>game</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'></head>
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+</head>
 <body>
 <h1>Klik om schepen te plaatsen</h1>
 
 <div id="buttons">
     <button onclick="setShipType(0)">vliegdekschip</button>
+    aantal over: 1
     <button onclick="setShipType(1)">slagschip</button>
+    aantal over: 2
     <button onclick="setShipType(2)">torpedojager</button>
+    aantal over: 3
     <button onclick="setShipType(3)">onderzeeboot</button>
+    aantal over: 3
     <button onclick="setShipType(4)">patrouilleboot</button>
-    <button onclick="setShipRotation(0)">vertical</button>
-    <button onclick="setShipRotation(1)">horizontal</button>
+    aantal over: 4
+    <div id="rotateButtons">
+        <button class="rotateButton" onclick="setShipRotation(0)">vertical</button>
+        <button class="rotateButton" onclick="setShipRotation(1)">horizontal</button>
+    </div>
 </div>
 
 <script src="js/main.js"></script>
