@@ -52,3 +52,14 @@ h1{
 body {
     font-family: 'Oswald', sans-serif;
 }
+
+#ownShips, #shootGrid{
+    width: 450px;
+    height: 450px;
+    margin: 25px;
+    float: left;
+}
+
+.shootTitle:hover {
+    background-color: lightblue;
+}
