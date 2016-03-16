@@ -66,3 +66,12 @@ body {
 .shootTitle:hover {
     background-color: lightblue;
 }
+
+:focus {
+    outline-color: transparent;
+    outline-style: none;
+}
+
+#vertical {
+    border-color: blue;
+}

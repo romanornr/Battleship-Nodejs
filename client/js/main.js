@@ -338,6 +338,13 @@ var setShipType = function (type) {
 //sets the ship rotation. called by a button
 var setShipRotation = function (rotation) {
     gameWorld.selectedShipRotation = rotation;
+    if(rotation == 0) {
+        document.getElementById("vertical").style.borderColor = "blue";
+        document.getElementById("horizontal").style.borderColor = "lightblue";
+    }else{
+        document.getElementById("vertical").style.borderColor = "lightblue";
+        document.getElementById("horizontal").style.borderColor = "blue";
+    }
 };
 
 /**
