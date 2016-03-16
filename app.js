@@ -19,7 +19,7 @@ var rooms = ['ship'];
 
 		socket.on('disconnect', function(){
 			console.log('a Player disconnect');
-		});
+		}); 
 	});
 
 //let it listen on port
