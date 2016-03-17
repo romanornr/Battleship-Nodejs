@@ -38,8 +38,8 @@ var vm = new Vue({
 	}, 
 
 	methods: {
-		chosenShip: function(ship){
-			this.setSelectedShip = ship;
+		setChosenShip: function(ship){
+			this.chosenShip = ship;
 		}
 	}
 
