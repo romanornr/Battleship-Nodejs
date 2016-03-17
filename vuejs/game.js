@@ -30,6 +30,17 @@ var vm = new Vue({
 	],
 
 	chosenShips: [],
-	rotated: false
+	statusMessage: 'Waiting for enemy....'
+	rotated: false,
+	enemyReady:: false,
+	playerid: null,
+	Fire: false
+	}, 
+
+	methods: {
+		setSelectedShip: function(ship){
+			this.setSelectedShip = ship;
+		}
 	}
+
 });
