@@ -29,16 +29,16 @@ var vm = new Vue({
 		{'type': 'Patrolboat', 'size': 2, 'rekt': false, 'available': 4}
 	],
 
-	chosenShips: [],
-	statusMessage: 'Waiting for enemy....'
+	chosenShip: null,
+	statusMessage: 'Waiting for enemy....',
 	rotated: false,
-	enemyReady:: false,
+	enemyReady: false,
 	playerid: null,
 	Fire: false
 	}, 
 
 	methods: {
-		setSelectedShip: function(ship){
+		chosenShip: function(ship){
 			this.setSelectedShip = ship;
 		}
 	}
