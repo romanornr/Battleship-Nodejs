@@ -4,17 +4,24 @@
 </head>
 
 <body>
+<div class="container">
 	<h1>Battelship</h1>
-	<div id="Battelship">
-		<board columns="10" rows="10">
 
-		</board>
-
-		<template id="board-template">
-			{{ board }}
+	<div id="Battleship">
+<board columns="10" rows="10"></board>
+		
+<template id="board-template">
+			<table border="1" width="600" height="600">
+				<tr v-for="data in board">
+				<td v-for="data in board"></td></tr>
+			</table>
 		</template>
+
+	</div>
 </div>
 </body>
 <script type="text/javascript" src="vue.js"></script>
 <script type="text/javascript" src="game.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
 </html>

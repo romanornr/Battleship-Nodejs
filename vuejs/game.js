@@ -1,12 +1,24 @@
 Vue.component('board', {
-	props['columns', 'rows'],
+	props:['columns', 'rows'],
+	template: '#board-template',
 	
+		computed:{
+		board: function(){
+			var height = this.columns *60;
+			var width = this.rows * 60;
+			var id = 0;
 
+				var element = []; 
+				for (var i = 0; i <this.columns; i++){
+					element += id++;
+				}
+				return element;
+			}
+	}
 });
 
-
 new Vue({
-	el: '#battelship',
+	el: '#battleship',
 
 	data: {
 		ships: [
@@ -17,7 +29,7 @@ new Vue({
 		{'type': 'Patrolboat', 'size': 2, 'rekt': false, 'available': 4},
 	],
 
-	chosenShips: [];
+	chosenShips: [],
 	rotated: false
 	}
 });
