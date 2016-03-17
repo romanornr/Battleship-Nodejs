@@ -6,10 +6,19 @@
 <body>
 <div class="container">
 	<h1>Battelship</h1>
-
-	<div id="Battleship">
+<div id="battleship">
 <board columns="10" rows="10"></board>
-		
+
+<div class="">
+<h5>Ships available</h5>
+<button @click="rotated =! rotated" :disable="ship.available == 0" type="button" class="btn btn-default btn-xs">
+Rotate the ship {{rotated ? 'vertical' : 'horizontal'}}</button>
+<br></br>
+
+<p v-for="ship in ships"><button @click="setSelectedSip(ship)" :disabled="ship.available ==0"
+type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
+{{ship.type}} {{ship.available}}</p>
+
 <template id="board-template">
 			<table border="1" width="600" height="600">
 				<tr v-for="data in board">

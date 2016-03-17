@@ -17,7 +17,7 @@ Vue.component('board', {
 	}
 });
 
-new Vue({
+var vm = new Vue({
 	el: '#battleship',
 
 	data: {
@@ -26,7 +26,7 @@ new Vue({
 		{'type': 'Battleship', 'size': 5, 'rekt': false, 'available': 2},
 		{'type': 'Destroyer', 'size': 3, 'rekt': false, 'available': 3},
 		{'type': 'Submarine', 'size': 3, 'rekt': false, 'available': 3},
-		{'type': 'Patrolboat', 'size': 2, 'rekt': false, 'available': 4},
+		{'type': 'Patrolboat', 'size': 2, 'rekt': false, 'available': 4}
 	],
 
 	chosenShips: [],
