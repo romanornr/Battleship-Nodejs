@@ -19,12 +19,12 @@ Vue.component('board', {
 	},
 
 	methods: {
-		placeTheShip: function(game){
+		placeTheShip: function(el){
 
-			console.log(game.currentTarget.getAttribute('data-coordination'));
+			console.log(this.$root.chosenShip);
 
-			if(this.$root.chosenShip == null || this.$root.chosenShip == 0) return;
-			var setCoordination = game.currentTarget.getAttribute('data-coordination');
+			if(this.$root.chosenShip == null || this.$root.chosenShip.available == 0) return;
+			var setCoordination = el.currentTarget.getAttribute('data-coordination');
 			var size = this.$root.chosenShip.size;
 			var hoveredTile = document.querySelectorAll('.title-hover');
 			var overlap = false; //check for placing colission 
@@ -47,10 +47,12 @@ Vue.component('board', {
 							if(e.className == 'placed-tile') overlap= true; 
 						}
 					}
-					console.log(e.className);
+					console.log(overlap);
 
-				}if(!overlap){
-					this.$root.chosenShip.amount--;
+				}
+				console.log(this.$root.chosenShip.available--);
+				if(overlap == false){
+					//this.$root.chosenShip.available--;
 					for (var i=0; i < hoveredTile.length; i++){
 						hoveredTile[i].className = 'placed-tile';
 					}
