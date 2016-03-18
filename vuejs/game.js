@@ -31,7 +31,7 @@ Vue.component('board', {
 
 			for(var i = 0; i < size; i++){
 				if(this.$root.rotated){
-					if(parseInt(setCoordination.split(".").reverse().join(".")[0]) + size <=this.columns){
+					if(parseInt(setCoordination.split("").reverse().join("")[0]) + size <=this.columns){
 						var e = document.querySelector('[data-coordination="'+(parseInt(setCoordination) + (i))+'"]');
 						if (e.className == 'placed-tile') overlap = true;
 					}else{
@@ -105,7 +105,7 @@ changeStyle: function(el) {
 
 			for (var i = 0; i < size; i++)
 				if(this.$root.rotated) {
-					if (parseInt(setCoordination.split("").reverse().join("")[0]) + size <= this.cols) {
+					if (parseInt(setCoordination.split("").reverse().join("")[0]) + size <= this.columns) {
 						var e = document.querySelector('[data-coordination="'+ (parseInt(setCoordination) + (i * 1)) +'"]');
 						e.className  = e.className == 'placed-tile' ? 'placed-tile' : 'tile';
 					}

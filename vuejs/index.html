@@ -54,7 +54,8 @@ type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
 <template id="board-template">
 			<table border="1" width="600" height="600">
 				<tr v-for="n in board">
-				<td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}" v-on:mouseover="changeStyle($event)"</td>
+				<td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}" 
+				v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile" v-if="i > 0" v-for="n in columns"></td>
 				</tr>
 			</table>
 		</template>
