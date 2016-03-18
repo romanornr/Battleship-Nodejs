@@ -1,27 +1,61 @@
 <html>
 <head>
 <title>Battleship</title>
+<style type="text/css">
+
+		td {
+			width:50px;
+			height:50px;
+			-webkit-box-sizing: border-box;
+		}
+
+		tr:first-child > td, td:first-child {
+			padding-left: 20px;
+		}
+
+		.tile:hover, .tile-hover, .placed-tile {
+			background-color: #BDBDBD;
+			cursor:pointer;
+		}
+
+		table {
+			padding:0;
+			padding:0;
+		}
+
+		.hit-tile {			
+			background-color: #B40404;
+		}
+
+		.missed-tile {
+			background: #2ECCFA;
+		}
+
+</style>
 </head>
 
 <body>
 <div class="container">
 	<h1>Battelship</h1>
 <div id="battleship">
-<board columns="10" rows="10"></board>
+
+<board :columns="10" :rows="10"></board>
+
 <h5></h5>
 <div class="">
-<button @click="rotated =! rotated" :disable="ship.available == 0" type="button" class="btn btn-default btn-xs">
+<button @click="rotated =! rotated" :disabled="ships.available == 0" type="button" class="btn btn-default btn-xs">
 Rotate the ship {{rotated ? 'vertical' : 'horizontal'}}</button>
 
-<h5>Ships available</h5>
-<p v-for="ship in ships"><button @click="setSelectedSip(ship)" :disabled="ship.available == 0"
+<!-- <h5>Ships available</h5> -->
+<p v-for="ship in ships"><button @click="setChosenShip(ship)" :disabled="ship.available == 0" 
 type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
 {{ship.type}} {{ship.available}}</p>
 
 <template id="board-template">
 			<table border="1" width="600" height="600">
-				<tr v-for="data in board">
-				<td v-for="data in board"></td></tr>
+				<tr v-for="n in board">
+				<td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}" v-on:mouseover="changeStyle($event)"</td>
+				</tr>
 			</table>
 		</template>
 
