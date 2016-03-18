@@ -28,51 +28,45 @@ Vue.component('board', {
 			var size = this.$root.chosenShip.size;
 			var hoveredTile = document.querySelectorAll('.title-hover');
 			var overlap = false; //check for placing colission 
-
+			
 			for(var i = 0; i < size; i++){
 				if(this.$root.rotated){
-					if(parseInt(setCoordination.split("").reverse().join("")[0]) + size <=this.columns){
+					if(parseInt(setCoordination.split("").reverse().join("")[0]) + size <= this.columns){
 						var e = document.querySelector('[data-coordination="'+(parseInt(setCoordination) + (i))+'"]');
-						if (e.className == 'placed-tile') overlap = true;
+						if (e.className == 'placed-tile') return;
 					}else{
 						var e = document.querySelector('[data-coordination="' + (parseInt(setCoordination) - (i))+'"]'); 
-						if (e.className = 'placed-tile') overlap = true;
+						if (e.className == 'placed-tile') return;
 						}
 					} else if(!this.$root.rotated){
 						if(document.querySelector('[data-coordination="' + (parseInt(setCoordination) + (i * 10)) + '"]') != null){
 							var e = document.querySelector('[data-coordination="'+ (parseInt(setCoordination) + (i * 10)) +'"]');
-							if(e.className = 'placed-tile') overlap=true;
+							if(e.className == 'placed-tile') return;
 						}else{
+							console.log('no');
 							var e = document.querySelector('[data-coordination="'+ (parseInt(setCoordination) - ((size - i) *10)) + '"]');
-							if(e.className == 'placed-tile') overlap= true; 
+							if(e.className == 'placed-tile') return; 
 						}
 					}
-					console.log(overlap);
+					//draw the boat
+					if(!overlap) e.className = 'placed-tile';
+				}
+				//make that type of boat decrement
+				if(!overlap) this.$root.chosenShip.available--;
 
-				}
-				console.log(this.$root.chosenShip.available--);
-				if(overlap == false){
-					//this.$root.chosenShip.available--;
-					for (var i=0; i < hoveredTile.length; i++){
-						hoveredTile[i].className = 'placed-tile';
-					}
-				}
 			},
 changeStyle: function(el) {
 
-			if(this.$root.chosenShip == null || this.$root.chosenShip.amount == 0)
+			if(this.$root.chosenShip == null || this.$root.chosenShip.available == 0)
 				return;
 
 			var setCoordination = el.currentTarget.getAttribute('data-coordination');
 
 			var size = this.$root.chosenShip.size;
-
-			console.log(setCoordination + ' is the Coordination');
 				
 
 			for (var i = 0; i < size; i++) {
 				var e = document.querySelector('[data-coordination="'+ setCoordination + (i)+'"]');
-				console.log(e);
 
 				if(this.$root.rotated) {
 					if (parseInt(setCoordination.split("").reverse().join("")[0]) + size <= this.columns) {
@@ -99,8 +93,7 @@ changeStyle: function(el) {
 		},
 
 		setDef: function(el) {
-			if(this.$root.chosenShip == null)
-				return;
+			if(this.$root.chosenShip == null) return;
 			var setCoordination = el.currentTarget.getAttribute('data-coordination');
 
 			var size = this.$root.chosenShip.size;
