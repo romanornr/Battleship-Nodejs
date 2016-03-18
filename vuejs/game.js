@@ -26,33 +26,37 @@ Vue.component('board', {
 			if(this.$root.chosenShip == null || this.$root.chosenShip.available == 0) return;
 			var setCoordination = el.currentTarget.getAttribute('data-coordination');
 			var size = this.$root.chosenShip.size;
-			var hoveredTile = document.querySelectorAll('.title-hover');
+			var hoveredTile = document.querySelectorAll('.tile-hover');
 			var overlap = false; //check for placing colission 
-			
+
 			for(var i = 0; i < size; i++){
 				if(this.$root.rotated){
 					if(parseInt(setCoordination.split("").reverse().join("")[0]) + size <= this.columns){
 						var e = document.querySelector('[data-coordination="'+(parseInt(setCoordination) + (i))+'"]');
-						if (e.className == 'placed-tile') return;
+						if (e.className == 'placed-tile') overlap = true;
 					}else{
 						var e = document.querySelector('[data-coordination="' + (parseInt(setCoordination) - (i))+'"]'); 
-						if (e.className == 'placed-tile') return;
+						if (e.className == 'placed-tile') overlap = true;
 						}
-					} else if(!this.$root.rotated){
+					} if(!this.$root.rotated){
 						if(document.querySelector('[data-coordination="' + (parseInt(setCoordination) + (i * 10)) + '"]') != null){
 							var e = document.querySelector('[data-coordination="'+ (parseInt(setCoordination) + (i * 10)) +'"]');
-							if(e.className == 'placed-tile') return;
+							if(e.className == 'placed-tile') overlap = true;
 						}else{
 							console.log('no');
 							var e = document.querySelector('[data-coordination="'+ (parseInt(setCoordination) - ((size - i) *10)) + '"]');
-							if(e.className == 'placed-tile') return; 
+							if(e.className == 'placed-tile') overlap = true;
 						}
 					}
-					//draw the boat
-					if(!overlap) e.className = 'placed-tile';
 				}
-				//make that type of boat decrement
-				if(!overlap) this.$root.chosenShip.available--;
+
+				if(!overlap){
+					for (var i = 0; i < hoveredTile.length; i++) {
+						console.log(hoveredTile[i].className);
+						hoveredTile[i].className = 'placed-tile';
+					}
+					this.$root.chosenShip.available--;
+				}
 
 			},
 changeStyle: function(el) {
