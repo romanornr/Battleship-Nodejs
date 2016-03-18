@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Battleship</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <style type="text/css">
 
 		td {
@@ -36,7 +37,7 @@
 
 <body>
 <div class="container">
-	<h1>Battelship</h1>
+	<h1>Battleship</h1>
 <div id="battleship">
 
 <board :columns="10" :rows="10"></board>
@@ -54,7 +55,8 @@ type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
 <template id="board-template">
 			<table border="1" width="600" height="600">
 				<tr v-for="n in board">
-				<td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}" v-on:mouseover="changeStyle($event)"</td>
+				<td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}" 
+				v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile" v-if="i > 0" v-for="n in columns"></td>
 				</tr>
 			</table>
 		</template>
@@ -64,6 +66,6 @@ type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
 </body>
 <script type="text/javascript" src="vue.js"></script>
 <script type="text/javascript" src="game.js"></script>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
 
 </html>
