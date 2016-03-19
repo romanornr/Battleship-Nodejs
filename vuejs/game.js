@@ -28,7 +28,7 @@ Vue.component('board', {
 			var size = this.$root.chosenShip.size;
 			var hoveredTile = document.querySelectorAll('.tile-hover');
 			var overlap = false; //check for placing colission 
-			
+
 			for (var i = size - 1; i >= 0; i--) {
 				if(this.$root.rotated){
 					if(parseInt(setCoordination.split("").reverse().join("")[0]) + size <= this.columns){
@@ -132,7 +132,7 @@ var vm = new Vue({
 	data: {
 		ships: [
 		{'type': 'Aircaft', 'size': 5, 'rekt': false, 'available': 1},
-		{'type': 'Battleship', 'size': 5, 'rekt': false, 'available': 2},
+		{'type': 'Battleship', 'size': 4, 'rekt': false, 'available': 2},
 		{'type': 'Destroyer', 'size': 3, 'rekt': false, 'available': 3},
 		{'type': 'Submarine', 'size': 3, 'rekt': false, 'available': 3},
 		{'type': 'Patrolboat', 'size': 2, 'rekt': false, 'available': 4}
