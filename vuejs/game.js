@@ -28,8 +28,8 @@ Vue.component('board', {
 			var size = this.$root.chosenShip.size;
 			var hoveredTile = document.querySelectorAll('.tile-hover');
 			var overlap = false; //check for placing colission 
-
-			for(var i = 0; i < size; i++){
+			
+			for (var i = size - 1; i >= 0; i--) {
 				if(this.$root.rotated){
 					if(parseInt(setCoordination.split("").reverse().join("")[0]) + size <= this.columns){
 						var e = document.querySelector('[data-coordination="'+(parseInt(setCoordination) + (i))+'"]');
@@ -51,8 +51,7 @@ Vue.component('board', {
 				}
 
 				if(!overlap){
-					for (var i = 0; i < hoveredTile.length; i++) {
-						console.log(hoveredTile[i].className);
+					for (var i = hoveredTile.length - 1; i >= 0; i--) {
 						hoveredTile[i].className = 'placed-tile';
 					}
 					this.$root.chosenShip.available--;
