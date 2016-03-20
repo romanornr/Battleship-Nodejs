@@ -11,19 +11,36 @@ var app = require('express')();
 	});
 
 
-var players = {};
-var rooms = ['ship'];
+var players = [];
 
-	io.on('connection', function(socket){
-		console.log('A player is connected');
+io.on('connection', function(socket){
 
-		socket.on('disconnect', function(){
+if (players.length >= 2)
+{
+	socket.emit('RoomIsFull', true);
+	console.log('Room is ful');
+} else {
+	var id = socket.id;
+	players.push({'id' : id, 'ready': false});
+	console.log('Player ' + id + ' joined' );
+}
+
+	socket.on('disconnect', function(){
+		players.splice(playerID(socket,id), 1)
 			console.log('a Player disconnect');
-		}); 
-	});
+	}); 
+});
 
 //let it listen on port
-	http.listen(1337, function()
+http.listen(1337, function()
+{
+	console.log('listening on port 1337');
+});
+
+function playerID(id)
+{
+	players.forEach(function(e, i)
 	{
-		console.log('listening on port 1337');
+		if(e.id == id) return e; 
 	});
+}
