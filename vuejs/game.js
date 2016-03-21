@@ -1,4 +1,19 @@
-Vue.config.debug = true;
+var socket = io('');
+
+socket.on('init', function(obj){
+	vm.playerid = obj.id;
+	if(obj.pcount == 2) vm.statusMessage = 'Not ready';
+});
+
+socket.on('PlayerJoined', function(){
+	vm.statusMessage = 'Not ready';
+});
+
+socket.on('enemyReady', function(){
+	vm.enemyReady = true;
+	vm.statusMessage = 'Ready';
+	console.log('Enemy is ready');
+})
 
 Vue.component('board', {
 	props:['columns', 'rows'],
@@ -126,6 +141,35 @@ changeStyle: function(el) {
 
 });
 
+Vue.component('enemy-board', {
+	template: "#enemy-board-template", 
+	props: ['columns', 'rows'], 
+
+	computed:{
+		board: function(){
+			var height = this.columns *60;
+			var width = this.rows * 60;
+			var id = 0;
+
+				var element = []; 
+				for (var i = 0; i <this.columns; i++){
+					element += id++;
+				}
+				return element;
+			}
+	}, 
+
+	methods: {
+		fire: function(el){
+			if(el.currentTarget.getAttribute('data-hittable') == 'true')
+			{
+				el.currentTarget.className = 'missed-tile';
+				el.currentTarget.setAttribute('data-hittable', 'false');
+			}
+		}
+	}
+})
+
 var vm = new Vue({
 	el: '#battleship',
 
@@ -161,7 +205,7 @@ var vm = new Vue({
 					ready = false;
 			});
 			if (ready){
-				//socket.io
+				socket.emit('ready', this.playerid)
 			}
 			return ready;
 		}

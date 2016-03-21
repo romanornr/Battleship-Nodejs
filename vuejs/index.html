@@ -61,11 +61,19 @@ type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
 			</table>
 		</template>
 
+      <template id="enemy-board-template">
+      		<table border="1" width="600" height="600">
+				<tr v-for="n in board">
+				<td v-for="i in board" @click="fire($event)" data-hittable="true" class="tile" v-if="i > 0" v-for="n in columns"></td>
+	        	</tr>
+        	</table>
+      </template>
+
 	</div>
 </div>
 </body>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script type="text/javascript" src="vue.js"></script>
 <script type="text/javascript" src="game.js"></script>
-
 
 </html>

@@ -1,15 +1,12 @@
 //import Express
 var app = require('express')();
-
+var express = require('express');
 //create a NodeJs http server
-	var http = require('http').Server(app);
+var http = require('http').Server(app);
 
-	var io = require('socket.io')(http);
-
-	app.get('/', function (req, res) {
-		res.sendFile(__dirname + '/index.html');
-	});
-
+var io = require('socket.io')(http);
+app.use(express.static(__dirname + '/vuejs'));
+app.use(express.static(__dirname + '/socket.io'));
 
 var players = [];
 
@@ -24,6 +21,13 @@ if (players.length >= 2)
 	players.push({'id' : id, 'ready': false});
 	console.log('Player ' + id + ' joined' );
 }
+
+
+socket.on('ready', function(id){
+	players.indexOf(playerID(id)).require = true;
+	socket.broadcast.emit('enemyRady', true);
+	console.log( id + 'is ready to play');
+});
 
 	socket.on('disconnect', function(){
 		players.splice(playerID(socket,id), 1)
