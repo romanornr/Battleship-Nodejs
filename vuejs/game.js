@@ -1,8 +1,20 @@
 var socket = io('');
 
-socket.on('init', function(obj){
-	vm.playerid = obj.id;
-	if(obj.count == 2) vm.statusMessage = 'Not ready';
+socket.on('test', function(socket){
+	vm.statusMessage = 'Enemy found';
+	console.log('test');
+});
+
+socket.on('init', function(){
+	// vm.playerid = obj.id;
+	// if(obj.count == 2) vm.statusMessage = 'Not ready';
+	vm.statusMessage = 'found!';
+	test = 'hi';
+	var hallo = 'hi'
+});
+
+socket.on('test', function(){
+	vm.statusMessage = 'test';
 });
 
 socket.on('PlayerJoined', function(){
@@ -199,9 +211,10 @@ var vm = new Vue({
 
 	computed: {
 		ready: function(){
+
 			var ready = true;
 			this.ships.Foreach(function(element, index){
-				if(element.available > 0)
+				if(element.available >= 0)
 					ready = false;
 				console.log(ready);
 			});

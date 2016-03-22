@@ -1,3 +1,4 @@
+var DEBUG = true;
 //import Express
 var app = require('express')();
 var express = require('express');
@@ -18,14 +19,18 @@ if (players.length >= 2)
 	console.log('Room is ful');
 } else {
 	var id = socket.id;
-	players.push({'id' : id, 'ready': false});
+	players.push({'id' : id, 'ready': true});
 	console.log('Player ' + id + ' joined' );
 }
+
+socket.on('test', function(){
+	if(players) console.log('good');
+});
 
 
 socket.on('ready', function(id){
 	players.indexOf(playerID(id)).require = true;
-	socket.broadcast.emit('enemyRady', true);
+	socket.broadcast.emit('enemyReady', true);
 	console.log( id + 'is ready to play');
 });
 
@@ -45,6 +50,6 @@ function playerID(id)
 {
 	players.forEach(function(e, i)
 	{
-		if(e.id == id) return e; 
+		if(e.id == id) return e;
 	});
 }
