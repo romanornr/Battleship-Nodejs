@@ -61,6 +61,10 @@ type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
 			</table>
 		</template>
 
+<div class="col-md-6">
+   <h3>Enemy board {{statusMessage}}</h3>
+        	<enemy-board :cols="10" :rows="10"></board>   
+</div>
       <template id="enemy-board-template">
       		<table border="1" width="600" height="600">
 				<tr v-for="n in board">

@@ -2,7 +2,7 @@ var socket = io('');
 
 socket.on('init', function(obj){
 	vm.playerid = obj.id;
-	if(obj.pcount == 2) vm.statusMessage = 'Not ready';
+	if(obj.count == 2) vm.statusMessage = 'Not ready';
 });
 
 socket.on('PlayerJoined', function(){
@@ -203,6 +203,7 @@ var vm = new Vue({
 			this.ships.Foreach(function(element, index){
 				if(element.available > 0)
 					ready = false;
+				console.log(ready);
 			});
 			if (ready){
 				socket.emit('ready', this.playerid)
