@@ -13,26 +13,29 @@ var players = [];
 
 io.on('connection', function(socket){
 
-if (players.length >= 2)
-{
+if (players.length >= 2){
 	socket.emit('RoomIsFull', true);
 	console.log('Room is ful');
-} else {
+	return;
+};
+
 	var id = socket.id;
 	players.push({'id' : id, 'ready': true});
 	console.log('Player ' + id + ' joined' );
-}
 
-socket.on('test', function(){
-	if(players) console.log('good');
-});
+if(players.length >= 1){
+	console.log('test');
+	//socket.emit('id', {'id' : id, 'ready': true});
+	socket.emit('enemyIsFound', 'enemyIsFound');
+	socket.broadcast.emit('id', {'id':socket.id});
+	
 
-
-socket.on('ready', function(id){
+	socket.on('enemyReady', function(id){
 	players.indexOf(playerID(id)).require = true;
 	socket.broadcast.emit('enemyReady', true);
 	console.log( id + 'is ready to play');
-});
+})};
+
 
 	socket.on('disconnect', function(){
 		players.splice(playerID(socket,id), 1)

@@ -5,17 +5,15 @@ socket.on('test', function(socket){
 	console.log('test');
 });
 
-socket.on('init', function(){
-	// vm.playerid = obj.id;
-	// if(obj.count == 2) vm.statusMessage = 'Not ready';
-	vm.statusMessage = 'found!';
-	test = 'hi';
-	var hallo = 'hi'
+socket.on('enemyIsFound', function(){
+	vm.statusMessage = 'Enemy has been spotted on the radar. Quick place your ships!';
 });
 
-socket.on('test', function(){
-	vm.statusMessage = 'test';
+socket.on('id', function(obj){
+	alert(obj.id);
+	console.log(obj.id + 'hello')
 });
+
 
 socket.on('PlayerJoined', function(){
 	vm.statusMessage = 'Not ready';
