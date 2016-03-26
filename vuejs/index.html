@@ -2,6 +2,8 @@
 <head>
 <title>Battleship</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!-- 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet"> -->
 
 <style type="text/css">
 		td {
@@ -40,6 +42,9 @@
 <div class="container">
 	<h1>Battleship</h1>
 <div id="battleship">
+<div class="col-md-6">
+   <h3>{{statusMessage}}</h3>
+</div>
 
 <board :columns="10" :rows="10"></board>
 
@@ -54,27 +59,30 @@ type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
 {{ship.type}} {{ship.available}}</p>
 
 <template id="board-template">
-			<table border="1" width="600" height="600">
-				<tr v-for="n in board">
-				<td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}" 
-				v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile" v-if="i > 0" v-for="n in columns"></td>
-				</tr>
-			</table>
-		</template>
+	<table border="1" width="600" height="600">
+		<tr v-for="n in board">
+		<td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}" 
+		v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile" v-if="i > 0" v-for="n in columns"></td>
+		</tr>
+	</table>
+</template>
 
-<div class="col-md-6">
-   <h3>{{statusMessage}}</h3>
-        	<enemy-board :cols="10" :rows="10"></board>   
-</div>
-      <template id="enemy-board-template">
-      		<table border="1" width="600" height="600">
-				<tr v-for="n in board">
-				<td v-for="i in board" @click="fire($event)" data-hittable="true" class="tile" v-if="i > 0" v-for="n in columns"></td>
-	        	</tr>
-        	</table>
-      </template>
+<template id="enemyBoard-template">
+		<table border="1" width="600" height="600">
+			<tr v-for="n in enemyBoard">
+			<td v-for="i in enemyBoard" @click="fire($event)" data-hittable="true" class="tile" v-if="i > 0" v-for="n in columns"></td>
+	    	</tr>
+	</table>
+</template>
+
+
+
+<enemy-board :columns="10" :rows="10"></enemy-board>
+      
 
 	</div>
+
+
 </div>
 </body>
 <script type="text/javascript" src="vue.js"></script>

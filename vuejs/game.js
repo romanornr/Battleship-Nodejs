@@ -7,11 +7,17 @@ socket.on('test', function(socket){
 
 socket.on('enemyIsFound', function(){
 	vm.statusMessage = 'Enemy has been spotted on the radar. Quick place your ships!';
+	socket.emit('init');
 });
 
-socket.on('id', function(obj){
-	alert(obj.id);
-	console.log(obj.id + 'hello')
+// socket.on('id', function(obj){
+// 	alert(obj.id);
+// 	console.log(obj.id + 'hello')
+// });
+
+socket.on('init', function(obj){
+	vm.player = obj;
+	//alert(obj.id);
 });
 
 
@@ -23,7 +29,7 @@ socket.on('enemyReady', function(){
 	vm.enemyReady = true;
 	vm.statusMessage = 'Ready';
 	console.log('Enemy is ready');
-})
+});
 
 Vue.component('board', {
 	props:['columns', 'rows'],
@@ -152,11 +158,11 @@ changeStyle: function(el) {
 });
 
 Vue.component('enemy-board', {
-	template: "#enemy-board-template", 
+	template: "#enemyBoard-template", 
 	props: ['columns', 'rows'], 
 
 	computed:{
-		board: function(){
+		enemyBoard: function(){
 			var height = this.columns *60;
 			var width = this.rows * 60;
 			var id = 0;
@@ -178,7 +184,7 @@ Vue.component('enemy-board', {
 			}
 		}
 	}
-})
+});
 
 var vm = new Vue({
 	el: '#battleship',
@@ -196,7 +202,7 @@ var vm = new Vue({
 	statusMessage: 'Waiting for enemy....',
 	rotated: false,
 	enemyReady: false,
-	playerid: null,
+	// player: null,
 	Fire: false
 	}, 
 
