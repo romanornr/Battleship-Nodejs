@@ -59,3 +59,7 @@ function playerID(id)
 		if(e.id == id) return e;
 	});
 }
+
+for (var i = vm.ships.length - 1; i >= 0; i--) {
+	console.log(vm.ships[i].available)
+}

@@ -203,7 +203,6 @@ var vm = new Vue({
 	rotated: false,
 	enemyReady: false,
 	// player: null,
-	Fire: false
 	}, 
 
 	methods: {
@@ -214,18 +213,16 @@ var vm = new Vue({
 	}, 
 
 	computed: {
-		ready: function(){
+		Ready: function(){
 
 			var ready = true;
-			this.ships.Foreach(function(element, index){
-				if(element.available >= 0)
-					ready = false;
-				console.log(ready);
-			});
-			if (ready){
-				socket.emit('ready', this.playerid)
+			for (var i = ships.length - 1; i >= 0; i--) {
+				if(ships[i].available >= 0) ready = false;
 			}
-			return ready;
+		// 	if (ready){
+		// 		socket.emit('ready', this.playerid)
+		// 	}
+		// 	return ready;
 		}
 	}
 
