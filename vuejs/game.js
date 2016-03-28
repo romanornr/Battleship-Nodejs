@@ -179,6 +179,9 @@ Vue.component('enemy-board', {
 		fire: function(el){
 			if(el.currentTarget.getAttribute('data-hittable') == 'true')
 			{
+				console.log(vm.player)
+				console.log(parseInt(el.currentTarget.getAttribute('data-enemyCoordination')));
+				socket.emit('fire', {'player':vm.player, 'coordination' : parseInt(el.currentTarget.getAttribute('data-enemyCoordination'))});
 				el.currentTarget.className = 'missed-tile';
 				el.currentTarget.setAttribute('data-hittable', 'false');
 			}
@@ -202,7 +205,7 @@ var vm = new Vue({
 	statusMessage: 'Waiting for enemy....',
 	rotated: false,
 	enemyReady: false,
-	// player: null,
+	//player: null,
 	}, 
 
 	methods: {

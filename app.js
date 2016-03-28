@@ -21,7 +21,7 @@ if (players.length >= 2){
 
 	var id = socket.id;
 	players.push({'id' : id, 'ready': false, 'takenHits': 0});
-	console.log('Player ' + id + ' joined' );
+	// console.log('Player ' + id + ' joined' );
 
 if(players.length > 1){
 	//socket.emit('id', {'id' : id, 'ready': true});
@@ -35,9 +35,31 @@ if(players.length > 1){
 	var player;
 	player = {'id' : socket.id, 'ready': true};
 	console.log('lmoa');
-	socket.emit('init', player)
+	socket.broadcast('init', player)
 	console.log( id + 'is ready to play');})
 };
+
+
+	socket.on('fire', function(obj){
+		var hit = false;
+		var enemy;
+
+		for(var i = 0; i < players.length; i++){
+			if(players[i].id != socket.id){
+				enemy = players[i];
+
+				for (var n = 0; n < players.length; n++) {
+					if(players.locations[n] == obj.coordination){
+						hit = true
+					}
+				}
+
+				if(hit){
+					console.log(enemy.takenHits++);
+				}
+			}
+		}
+	})
 
 
 	socket.on('disconnect', function(){
@@ -60,6 +82,6 @@ function playerID(id)
 	});
 }
 
-for (var i = vm.ships.length - 1; i >= 0; i--) {
-	console.log(vm.ships[i].available)
-}
+// for (var i = ships.length - 1; i >= 0; i--) {
+// 	console.log(vm.ships[i].available)
+// }
