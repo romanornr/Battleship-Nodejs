@@ -46,6 +46,7 @@ if(roomCapicity > 1){
 
 
 	socket.on('fire', function(obj){
+		console.log(playerid(id));
 		// var hit = false;
 		// var enemy;
 
@@ -89,6 +90,14 @@ function playerID(id)
 	{
 		if(e.id == id) return e;
 	});
+}
+
+function playerid(id)
+{
+		for (var i = 0; i < players.length; i++) {
+		var currentPlayer = players[i];
+		if(currentPlayer.id == id) return id;
+		}
 }
 
 // for (var i = ships.length - 1; i >= 0; i--) {
