@@ -10,30 +10,38 @@ app.use(express.static(__dirname + '/vuejs'));
 app.use(express.static(__dirname + '/socket.io'));
 
 var players = [];
+var roomCapicity = 0;
 
 io.on('connection', function(socket){
-
-if (players.length >= 2){
+var id = socket.id;
+if (roomCapicity >= 2){
 	socket.emit('RoomIsFull', true);
 	console.log('Room is ful');
 	return;
 }
 
 	var id = socket.id;
-	players.push({'id' : id, 'ready': false, 'takenHits': 0});
+	roomCapicity++;
+	console.log(roomCapicity)
+	// players.push({'id' : id, 'ready': false, 'takenHits': 0});
 	// console.log('Player ' + id + ' joined' );
 
-if(players.length > 1){
+if(roomCapicity > 1){
 	socket.emit('enemyIsFound', 'enemyIsFound');
 	socket.broadcast.emit('enemyIsFound', 'enemyIsFound');
-	socket.on('init', function(players){
+
+	socket.on('init', function(){
 	var player;
-	player = {'id' : socket.id, 'ready': true};
+	player = {'id' : socket.id, 'ready': true, 'takenHits': 0};
+	players.push(player);
 
 	//init with if statement to force the correct id
-	if (id == socket.id) socket.emit('init', player)
+	if (id == socket.id) socket.emit('init', player);
 	console.log(id + 'is ready to play');
-	})
+	for (var i = players.length - 1; i >= 0; i--) {
+		console.log(players[i]);
+	}
+	});
 };
 
 
@@ -58,9 +66,13 @@ if(players.length > 1){
 		// }
 	});
 
-
 	socket.on('disconnect', function(){
-		players.splice(playerID(socket,id), 1)
+		roomCapicity--;
+		console.log(id +" player left")
+		for (var i = 0; i < players.length; i++) {
+			 var currentPlayer = players[i]
+			 if(currentPlayer.id == id) players.splice(i, 1);
+		}
 			console.log('a Player disconnect');
 	}); 
 });
