@@ -24,42 +24,39 @@ if (players.length >= 2){
 	// console.log('Player ' + id + ' joined' );
 
 if(players.length > 1){
-	//socket.emit('id', {'id' : id, 'ready': true});
 	socket.emit('enemyIsFound', 'enemyIsFound');
 	socket.broadcast.emit('enemyIsFound', 'enemyIsFound');
-	// socket.broadcast.emit('id', {'id':socket.id});
-	
-
 	socket.on('init', function(players){
-
 	var player;
 	player = {'id' : socket.id, 'ready': true};
-	console.log('lmoa');
-	socket.broadcast('init', player)
-	console.log( id + 'is ready to play');})
+
+	//init with if statement to force the correct id
+	if (id == socket.id) socket.emit('init', player)
+	console.log(id + 'is ready to play');
+	})
 };
 
 
 	socket.on('fire', function(obj){
-		var hit = false;
-		var enemy;
+		// var hit = false;
+		// var enemy;
 
-		for(var i = 0; i < players.length; i++){
-			if(players[i].id != socket.id){
-				enemy = players[i];
+		// for(var i = 0; i < players.length; i++){
+		// 	if(players[i].id != socket.id){
+		// 		enemy = players[i];
 
-				for (var n = 0; n < players.length; n++) {
-					if(players.locations[n] == obj.coordination){
-						hit = true
-					}
-				}
+		// 		for (var n = 0; n < players.length; n++) {
+		// 			if(players.locations[n] == obj.coordination){
+		// 				hit = true
+		// 			}
+		// 		}
 
-				if(hit){
-					console.log(enemy.takenHits++);
-				}
-			}
-		}
-	})
+		// 		if(hit){
+		// 			console.log(enemy.takenHits++);
+		// 		}
+		// 	}
+		// }
+	});
 
 
 	socket.on('disconnect', function(){
