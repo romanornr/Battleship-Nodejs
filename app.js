@@ -45,11 +45,18 @@ if(roomCapicity > 1){
 };
 
 
-	socket.on('fire', function(obj){
-		console.log(playerid(id));
-		// var hit = false;
-		// var enemy;
+	socket.on('fire', function(obj, id){
 
+		var hit = false;
+		var enemy;
+
+		//define enemy
+		for (var i = 0; i < players.length; i++) {
+			if(players[i].id != socket.id){
+				var enemy = players[i].id;
+			}
+		}
+		// console.log('this is the anime ' + enemyid(id))
 		// for(var i = 0; i < players.length; i++){
 		// 	if(players[i].id != socket.id){
 		// 		enemy = players[i];
@@ -96,7 +103,7 @@ function playerid(id)
 {
 		for (var i = 0; i < players.length; i++) {
 		var currentPlayer = players[i];
-		if(currentPlayer.id == id) return id;
+		if(currentPlayer.id == id) return currentPlayer.id;
 		}
 }
 
