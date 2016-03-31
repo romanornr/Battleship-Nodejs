@@ -10,14 +10,8 @@ socket.on('enemyIsFound', function(){
 	socket.emit('init');
 });
 
-// socket.on('id', function(obj){
-// 	alert(obj.id);
-// 	console.log(obj.id + 'hello')
-// });
-
 socket.on('init', function(obj){
 	vm.player = obj;
-	//alert(obj.id);
 });
 
 
@@ -82,10 +76,12 @@ Vue.component('board', {
 				}
 
 				if(!overlap){
+					console.log(this.$root.chosenShip);
 					for (var i = hoveredTile.length - 1; i >= 0; i--) {
 						hoveredTile[i].className = 'placed-tile';
+						this.$root.chosenShip.location.push(hoveredTile[i].getAttribute('data-coordination'));
 					}
-					this.$root.chosenShip.available--;
+					console.log(socket.emit('place', this.$root.chosenShip));
 				}
 
 			},
@@ -179,6 +175,7 @@ Vue.component('enemy-board', {
 		fire: function(el){
 			if(el.currentTarget.getAttribute('data-hittable') == 'true')
 			{
+				if(!vm.player) return;
 				console.log(vm.player)
 				console.log(parseInt(el.currentTarget.getAttribute('data-enemyCoordination')));
 				socket.emit('fire', {'player':vm.player, 'coordination' : parseInt(el.currentTarget.getAttribute('data-enemyCoordination'))});
@@ -194,17 +191,18 @@ var vm = new Vue({
 
 	data: {
 		ships: [
-		{'type': 'Aircaft', 'size': 5, 'rekt': false, 'available': 1},
-		{'type': 'Battleship', 'size': 4, 'rekt': false, 'available': 2},
-		{'type': 'Destroyer', 'size': 3, 'rekt': false, 'available': 3},
-		{'type': 'Submarine', 'size': 3, 'rekt': false, 'available': 3},
-		{'type': 'Patrolboat', 'size': 2, 'rekt': false, 'available': 4}
+		{'type': 'Aircaft', 'size': 5, 'rekt': false, 'available': 1, 'location' : []},
+		{'type': 'Battleship', 'size': 4, 'rekt': false, 'available': 2, 'location' : []},
+		{'type': 'Destroyer', 'size': 3, 'rekt': false, 'available': 3, 'location' : []},
+		{'type': 'Submarine', 'size': 3, 'rekt': false, 'available': 3, 'location' : []},
+		{'type': 'Patrolboat', 'size': 2, 'rekt': false, 'available': 4, 'location' : []}
 	],
 
 	chosenShip: null,
 	statusMessage: 'Waiting for enemy....',
 	rotated: false,
 	enemyReady: false,
+	ready: false
 	//player: null,
 	}, 
 
@@ -216,11 +214,11 @@ var vm = new Vue({
 	}, 
 
 	computed: {
-		Ready: function(){
+		ready: function(){
 
 			var ready = true;
 			for (var i = ships.length - 1; i >= 0; i--) {
-				if(ships[i].available >= 0) ready = false;
+				if(ships[i].available >= 0) ready = true;
 			}
 		// 	if (ready){
 		// 		socket.emit('ready', this.playerid)
