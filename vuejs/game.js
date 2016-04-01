@@ -81,6 +81,7 @@ Vue.component('board', {
 						hoveredTile[i].className = 'placed-tile';
 						this.$root.chosenShip.location.push(hoveredTile[i].getAttribute('data-coordination'));
 					}
+					this.$root.chosenShip.available--;
 					console.log(socket.emit('place', this.$root.chosenShip));
 				}
 

@@ -40,7 +40,7 @@ var updateShip = function(id, ship, callback){
 
 io.on('connection', function(socket){
 var id = socket.id;
-//var players = [];
+
 if (players.length >= 2){
 	socket.emit('RoomIsFull', true);
 	console.log('Room is ful');
@@ -62,34 +62,41 @@ if(players.length > 1){
 
 	socket.on('init', function(player){
 	var player;
+		for (var i = players.length - 1; i >= 0; i--) {
+		if(players[i].id == id) player = players[i]
+	}
 
 	//init with if statement to force the correct id
 	if (id == socket.id) socket.emit('init', player);
 	console.log(id + 'is ready to play');
-	for (var i = players.length - 1; i >= 0; i--) {
-		console.log(players[i]);
-	}
 	});
 };
 
 
-	socket.on('fire', function(obj, id){
+	socket.on('fire', function(obj, id, ship){
 
 		var hit = false;
 		var enemy;
+		console.log(players);
+		// //define enemy
+		// for (var i = 0; i < players.length; i++) {
+		// 	if(players[i].id != socket.id){
+		// 		var enemy = players[i].id;
+		// 		console.log(enemy)
+		// 		for (var n = 0; i < enemy.ships.length; n++) {
+		// 			if(enemy.ships[n].location == obj.coordination)
+		// 			{
+		// 				console.log('hit');
+		// 			}
+		// 		}
 
-		//define enemy
-		for (var i = 0; i < players.length; i++) {
-			if(players[i].id != socket.id){
-				var enemy = players[i].id;
-
-				// for (var n = 0; i < players.length; n++) {
-				// 	console.log('hi');
-				// 	if(players.locations[n] == obj.coordination) hit = true;
-				// }
-				// if(hit) console.log(enemy.takenHits++)
-			}
-		}
+		// 		// for (var n = 0; i < players.length; n++) {
+		// 		// 	console.log('hi');
+		// 		// 	if(players.locations[n] == obj.coordination) hit = true;
+		// 		// }
+		// 		// if(hit) console.log(enemy.takenHits++)
+		// 	}
+		// }
 		// console.log('this is the anime ' + enemyid(id))
 		// for(var i = 0; i < players.length; i++){
 		// 	if(players[i].id != socket.id){
