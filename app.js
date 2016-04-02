@@ -77,19 +77,17 @@ if(players.length > 1){
 
 		var hit = false;
 		var enemy;
-		console.log(players);
 		// //define enemy
-		for (var i = 0; i < players.length; i++) {
-			if(players[i].id != socket.id) enemy = players[i];
-		} 
-		console.log(obj.coordination)
-		console.log(enemy.ships[1])
+	 	players.map(function(player){if(player.id != socket.id) return enemy = player});
 
-		for (var n = 0; n < enemy.ships.length; i++) {
-			if(enemy.ships[n].location == obj.coordination){
-				console.log('hit')
-			}
-		};
+		//console.log(obj.coordination)
+		//console.log(enemy.ships[1])
+
+		// for (var n = 0; n < enemy.ships.length; i++) {
+		// 	if(enemy.ships[n].location == obj.coordination){
+		// 		console.log('hit')
+		// 	}
+		// };
 
 		// 		// for (var n = 0; i < players.length; n++) {
 		// 		// 	console.log('hi');
