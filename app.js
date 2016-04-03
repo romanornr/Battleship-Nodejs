@@ -87,43 +87,10 @@ if(players.length > 1){
 	 		}
 	 	};
 
-		// var test = enemy.ships.map(function(ship){
-		// 	if(ship.location == obj.coordination){
-		// 		return true;
-		// 	}
-
-		// 	return false;
-		// });
-		//console.log(test);
-		// for (var n = 0; n < enemy.ships.length; i++) {
-		// 	if(enemy.ships[n].location == obj.coordination){
-		// 		console.log('hikit')
-		// 	}
-		// };
-
-		// 		// for (var n = 0; i < players.length; n++) {
-		// 		// 	console.log('hi');
-		// 		// 	if(players.locations[n] == obj.coordination) hit = true;
-		// 		// }
-		// 		// if(hit) console.log(enemy.takenHits++)
-		// 	}
-		// }
-		// console.log('this is the anime ' + enemyid(id))
-		// for(var i = 0; i < players.length; i++){
-		// 	if(players[i].id != socket.id){
-		// 		enemy = players[i];
-
-		// 		for (var n = 0; n < players.length; n++) {
-		// 			if(players.locations[n] == obj.coordination){
-		// 				hit = true
-		// 			}
-		// 		}
-
-		// 		if(hit){
-		// 			console.log(enemy.takenHits++);
-		// 		}
-		// 	}
-		// }
+		if(hit){
+			console.log(enemy.takenHits++);
+			socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
+		}
 
 	});
 

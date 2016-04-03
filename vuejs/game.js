@@ -24,6 +24,12 @@ socket.on('enemyReady', function(){
 	console.log('Enemy is ready');
 });
 
+socket.on('hit', function(obj){
+	if(obj.hit){
+		document.querySelector('[data-enemyCoordination="'+ obj.coordination +'"]').style.backgroundColor = "red";
+	}
+})
+
 Vue.component('board', {
 	props:['columns', 'rows'],
 	template: '#board-template',
