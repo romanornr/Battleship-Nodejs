@@ -14,7 +14,6 @@ socket.on('init', function(obj){
 	vm.player = obj;
 });
 
-
 socket.on('PlayerJoined', function(){
 	vm.statusMessage = 'Not ready';
 });
@@ -79,7 +78,7 @@ Vue.component('board', {
 					console.log(this.$root.chosenShip);
 					for (var i = hoveredTile.length - 1; i >= 0; i--) {
 						hoveredTile[i].className = 'placed-tile';
-						this.$root.chosenShip.location.push(hoveredTile[i].getAttribute('data-coordination'));
+						this.$root.chosenShip.location.push(parseInt(hoveredTile[i].getAttribute('data-coordination')));
 					}
 					this.$root.chosenShip.available--;
 					console.log(socket.emit('place', this.$root.chosenShip));
@@ -177,7 +176,6 @@ Vue.component('enemy-board', {
 			if(el.currentTarget.getAttribute('data-hittable') == 'true')
 			{
 				if(!vm.player) return;
-				console.log(vm.player)
 				console.log(parseInt(el.currentTarget.getAttribute('data-enemyCoordination')));
 				socket.emit('fire', {'player':vm.player, 'coordination' : parseInt(el.currentTarget.getAttribute('data-enemyCoordination'))});
 				el.currentTarget.className = 'missed-tile';
