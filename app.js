@@ -10,7 +10,6 @@ app.use(express.static(__dirname + '/vuejs'));
 app.use(express.static(__dirname + '/socket.io'));
 
 var players = [];
-var roomCapicity = 0;
 
 var ships = [
 		{'type': 'Aircaft', 'size': 5, 'rekt': false, 'available': 1, 'location' : []},
@@ -56,50 +55,49 @@ socket.on('place', function(ship){
 //create player & push to players array with starting data
 players.push({'id' : socket.id, 'ready': true, 'takenHits': 0, 'ships': ships});
 
-if(players.length > 1){
-	socket.emit('enemyIsFound', 'enemyIsFound');
-	socket.broadcast.emit('enemyIsFound', 'enemyIsFound');
-
-	socket.on('init', function(player){
+socket.on('init', function(player){
 	var player;
 		for (var i = players.length - 1; i >= 0; i--) {
 		if(players[i].id == id) player = players[i]
-	}
+}
 
-	//init with if statement to force the correct id
+//init with if statement to force the correct id
 	if (id == socket.id) socket.emit('init', player);
 	console.log(id + 'is ready to play');
-	});
+});
+
+if(players.length > 1){
+	socket.emit('enemyIsFound', 'enemyIsFound');
+	socket.broadcast.emit('enemyIsFound', 'enemyIsFound');
 };
 
 
-	socket.on('fire', function(obj, id, ship){
+socket.on('fire', function(obj, id, ship){
 
-		var enemy = [];
-		// //define enemy
-	 	players.map(function(player){if(player.id != socket.id) return enemy = player});
+	var enemy = [];
+	// //define enemy
+	 players.map(function(player){if(player.id != socket.id) return enemy = player});
 
-	 	var hit;
-
-
-	 	for (var i = 0; i < enemy.ships.length; i++) {
-	 		for (var n = 0; n < enemy.ships[i].location.length; n++) {
-	 			if (obj.coordination == enemy.ships[i].location[n]) hit = true;
-	 		}
-	 	};
+	 var hit;
 
 
-		if(hit){
-			enemy.takenHits++;
-			console.log('Hit! '+obj.coordination);
-			socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
+	 for (var i = 0; i < enemy.ships.length; i++) {
+	 	for (var n = 0; n < enemy.ships[i].location.length; n++) {
+	 		if (obj.coordination == enemy.ships[i].location[n]) hit = true;
+	 	}
+	 };
+
+
+	if(hit){
+		enemy.takenHits++;
+		console.log('Hit! '+obj.coordination);
+		socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
 
 		}else{
 			console.log('missed');
 			console.log(obj.coordination);
 		};
-
-	});
+});
 
 	socket.on('disconnect', function(){
 		roomCapicity--;
@@ -117,11 +115,3 @@ http.listen(1337, function()
 {
 	console.log('listening on port 1337');
 });
-
-function playerid(id)
-{
-		for (var i = 0; i < players.length; i++) {
-		var currentPlayer = players[i];
-		if(currentPlayer.id == id) return currentPlayer.id;
-		}
-}
