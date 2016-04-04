@@ -29,7 +29,6 @@ var updateShip = function(id, ship, callback){
 
 	for (var i = 0; i< player.ships.length; i++) {
 		if (player.ships[i].type == ship.type) {
-			if (player.ships[i].location == 0) //check if the ship hasn't been placed yet.
 				player.ships[i] = ship;
 			console.log('ship placed at coordination '+ ship.location)
 		}
@@ -78,15 +77,13 @@ socket.on('fire', function(obj, id, ship){
 	// //define enemy
 	 players.map(function(player){if(player.id != socket.id) return enemy = player});
 
-	 var hit;
-
-
-	 for (var i = 0; i < enemy.ships.length; i++) {
-	 	for (var n = 0; n < enemy.ships[i].location.length; n++) {
-	 		if (obj.coordination == enemy.ships[i].location[n]) hit = true;
-	 	}
-	 };
-
+	/**
+	 * check if fired shot matches any ship location
+	 * @boolean {[true]}
+	 */
+	 var hit = enemy.ships
+  			.map(ship => ship.location)
+  			.some(coordinates => coordinates.some(coordinate => coordinate === obj.coordination ));
 
 	if(hit){
 		enemy.takenHits++;
@@ -100,7 +97,6 @@ socket.on('fire', function(obj, id, ship){
 });
 
 	socket.on('disconnect', function(){
-		roomCapicity--;
 		console.log(id +" player left")
 		for (var i = 0; i < players.length; i++) {
 			 var currentPlayer = players[i]
