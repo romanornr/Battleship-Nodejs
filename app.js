@@ -75,22 +75,29 @@ if(players.length > 1){
 
 	socket.on('fire', function(obj, id, ship){
 
-		//var hit = false;
 		var enemy = [];
 		// //define enemy
 	 	players.map(function(player){if(player.id != socket.id) return enemy = player});
 
 	 	var hit;
+
+
 	 	for (var i = 0; i < enemy.ships.length; i++) {
 	 		for (var n = 0; n < enemy.ships[i].location.length; n++) {
-	 			if (obj.coordination == enemy.ships[i].location[n]) hit = true;;
+	 			if (obj.coordination == enemy.ships[i].location[n]) hit = true;
 	 		}
 	 	};
 
+
 		if(hit){
-			console.log(enemy.takenHits++);
+			enemy.takenHits++;
+			console.log('Hit! '+obj.coordination);
 			socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
-		}
+
+		}else{
+			console.log('missed');
+			console.log(obj.coordination);
+		};
 
 	});
 
