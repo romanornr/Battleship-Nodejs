@@ -1,0 +1,62 @@
+td {
+    width: 50px;
+    height: 50px;
+    -webkit-box-sizing: border-box;
+}
+
+tr:first-child > td, td:first-child {
+    padding-left: 20px;
+}
+
+.tile:hover, .tile-hover, .placed-tile {
+    background-color: #BDBDBD;
+    cursor: pointer;
+}
+
+table {
+    padding: 0;
+    padding: 0;
+}
+
+.hit-tile {
+    background-color: #B40404;
+}
+
+.missed-tile {
+    background: #2ECCFA;
+}
+
+#boards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#msg {
+    display: flex;
+    justify-content: center;
+}
+
+h1{
+    text-align: center;
+}
+
+#buttons {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    margin-top: 15px;
+}
+
+button {
+    background-color: white;
+    border: lightgrey solid 1px;
+    border-radius: 10px;
+}
+
+button:hover {
+    background-color: lightgrey;
+    border-color: grey;;
+}

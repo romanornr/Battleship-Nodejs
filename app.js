@@ -33,12 +33,10 @@ var updateShip = function(id, ship, callback){
 	for (var i = 0; i< ships.length; i++) {
 		if (ships[i].type == ship.type) {
 				player.ships.push(ship);
-			console.log('ship placed at coordination '+ ship.location)
 		}
 	}
 
-    console.log('Ship placed', player, 'Ships', player.ships[0]);
-
+    console.log('player', player.id, 'ship', ship, 'ships', player.ships);
 };
 
 
@@ -83,7 +81,7 @@ socket.on('fire', function(obj, id, ship){
 	// //define enemy
 	 players.map(function(player){if(player.id != socket.id) return enemy = player});
 
-	console.log('enemy', enemy);
+	console.log('enemy', enemy.id);
 	/**
 	 * check if fired shot matches any ship location
 	 * @boolean {[true]}

@@ -1,89 +1,68 @@
 <html>
 <head>
-<title>Battleship</title>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <title>Battleship</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"
+          rel="stylesheet">
 
-<style type="text/css">
-		td {
-			width:50px;
-			height:50px;
-			-webkit-box-sizing: border-box;
-		}
-
-		tr:first-child > td, td:first-child {
-			padding-left: 20px;
-		}
-
-		.tile:hover, .tile-hover, .placed-tile {
-			background-color: #BDBDBD;
-			cursor:pointer;
-		}
-
-		table {
-			padding:0;
-			padding:0;
-		}
-
-		.hit-tile {			
-			background-color: #B40404;
-		}
-
-		.missed-tile {
-			background: #2ECCFA;
-		}
-
-</style>
-
+    <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-<div class="container">
-	<h1>Battleship</h1>
+<h1>Battleship</h1>
+
 <div id="battleship">
-<div class="col-md-6">
-   <h3>{{statusMessage}}</h3>
+    <div id="msg">
+        <h3>{{statusMessage}}</h3>
+    </div>
+
+    <div id="boards">
+        <board :columns="10" :rows="10"></board>
+
+
+        <template id="board-template">
+            <table border="1" width="600" height="600">
+                <tr v-for="n in board">
+                    <td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}"
+                        v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile"
+                        v-if="i > 0" v-for="n in columns"></td>
+                </tr>
+            </table>
+        </template>
+
+        <template id="enemyBoard-template">
+            <table border="1" width="600" height="600">
+                <tr v-for="n in enemyBoard">
+                    <td v-for="i in enemyBoard" @click="fire($event)" data-enemyCoordination="{{n +''+ i}}"
+                        data-hittable="true" class="tile" v-if="i > 0" v-for="n in columns"></td>
+                </tr>
+            </table>
+        </template>
+
+
+        <enemy-board :columns="10" :rows="10"></enemy-board>
+    </div>
+
+    <div id="buttons">
+        <button @click="rotated =! rotated" :disabled="ships.available == 0" type="button"
+               >
+            Rotate the ship {{rotated ? 'vertical' : 'horizontal'}}
+        </button>
+
+        <!-- <h5>Ships available</h5> -->
+        <p v-for="ship in ships">
+            &nbsp
+            {{ship.type}} {{ship.available}}
+            <button @click="setChosenShip(ship)" :disabled="ship.available == 0"
+                    type="button">Choose
+            </button>
+
+        </p>
+    </div>
 </div>
 
-<board :columns="10" :rows="10"></board>
-
-<h5></h5>
-<div class="">
-<button @click="rotated =! rotated" :disabled="ships.available == 0" type="button" class="btn btn-default btn-xs">
-Rotate the ship {{rotated ? 'vertical' : 'horizontal'}}</button>
-
-<!-- <h5>Ships available</h5> -->
-<p v-for="ship in ships"><button @click="setChosenShip(ship)" :disabled="ship.available == 0" 
-type="button" class="btn btn-default btn-xs">Choose</button>&nbsp
-{{ship.type}} {{ship.available}}</p>
-
-<template id="board-template">
-	<table border="1" width="600" height="600">
-		<tr v-for="n in board">
-		<td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}" 
-		v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile" v-if="i > 0" v-for="n in columns"></td>
-		</tr>
-	</table>
-</template>
-
-<template id="enemyBoard-template">
-		<table border="1" width="600" height="600">
-			<tr v-for="n in enemyBoard">
-			<td v-for="i in enemyBoard" @click="fire($event)" data-enemyCoordination="{{n +''+ i}}" data-hittable="true" class="tile" v-if="i > 0" v-for="n in columns"></td>
-	    	</tr>
-	</table>
-</template>
-
-
-
-<enemy-board :columns="10" :rows="10"></enemy-board>
-      
-
-	</div>
-
-
-</div>
 </body>
 <script type="text/javascript" src="vue.js"></script>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
