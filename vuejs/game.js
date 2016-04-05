@@ -213,14 +213,12 @@ var vm = new Vue({
 	}, 
 
 	computed: {
-		setReady: function(){
+		isReady: function(){
 
-		var ready = true;
-			for (var i = ships.length - 1; i >= 0; i--) {
-				if(ships[i].available >= 1){
-					ready = true;
+			ready = true;
+				for (var i = 0; i < vm.ships.length; i++) {
+					if(vm.ships[i].available > 0) return ready = false;
 				}
-			}
 
 		// 	if (ready){
 		// 		socket.emit('ready', this.playerid)
@@ -228,5 +226,5 @@ var vm = new Vue({
 		return ready;
 		}
 	}
-
-});
+}); 
+Vue.config.debug = true;
