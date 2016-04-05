@@ -77,3 +77,8 @@ p{
 
     font-size: 0.8em;
 }
+
+#ready {
+    display: flex;
+    justify-content: center;
+}

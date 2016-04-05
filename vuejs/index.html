@@ -16,11 +16,15 @@
     <div id="msg">
         <h4>{{statusMessage}}</h4>
     </div>
+    <div id="ready">
+        <p>Your board: <span v-show="ready">Ready</span><span v-else>Not ready</span></p>
+    </div>
 
     <div id="boards">
 
         <board :columns="10" :rows="10"></board>
-        <p>Your board: <span v-show="ready">Ready</span><span v-else>Not ready</span></p>
+
+
 
         <template id="board-template">
             <table border="1">
