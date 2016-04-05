@@ -23,7 +23,7 @@
 
 
         <template id="board-template">
-            <table border="1" width="600" height="600">
+            <table border="1">
                 <tr v-for="n in board">
                     <td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}"
                         v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile"
@@ -33,7 +33,7 @@
         </template>
 
         <template id="enemyBoard-template">
-            <table border="1" width="600" height="600">
+            <table border="1">
                 <tr v-for="n in enemyBoard">
                     <td v-for="i in enemyBoard" @click="fire($event)" data-enemyCoordination="{{n +''+ i}}"
                         data-hittable="true" class="tile" v-if="i > 0" v-for="n in columns"></td>
@@ -46,11 +46,6 @@
     </div>
 
     <div id="buttons">
-        <button @click="rotated =! rotated" :disabled="ships.available == 0" type="button"
-               >
-            Rotate the ship {{rotated ? 'vertical' : 'horizontal'}}
-        </button>
-
         <!-- <h5>Ships available</h5> -->
         <p v-for="ship in ships">
             &nbsp
@@ -61,11 +56,17 @@
 
         </p>
     </div>
+
+    <button @click="rotated =! rotated" :disabled="ships.available == 0" type="button" id="rotate"
+    >
+        Rotate the ship {{rotated ? 'vertical' : 'horizontal'}}
+    </button>
 </div>
 
 </body>
 <script type="text/javascript" src="vue.js"></script>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script type="text/javascript" src="game.js"></script>
+<script src="main.js"></script>
 
 </html>
