@@ -23,16 +23,22 @@ var updateShip = function(id, ship, callback){
 
 	var player;
 
+    console.log('Ship', ship);
+
 	for (var i = 0; i< players.length; i++) {
 		if(players[i].id == id) player = players[i];
 	}
 
-	for (var i = 0; i< player.ships.length; i++) {
-		if (player.ships[i].type == ship.type) {
-				player.ships[i] = ship;
+
+	for (var i = 0; i< ships.length; i++) {
+		if (ships[i].type == ship.type) {
+				player.ships.push(ship);
 			console.log('ship placed at coordination '+ ship.location)
 		}
 	}
+
+    console.log('Ship placed', player, 'Ships', player.ships[0]);
+
 };
 
 
@@ -41,7 +47,7 @@ var id = socket.id;
 
 if (players.length >= 2){
 	socket.emit('RoomIsFull', true);
-	console.log('Room is ful');
+	console.log('Room is full');
 	return;
 }
 
@@ -52,13 +58,13 @@ socket.on('place', function(ship){
 });
 
 //create player & push to players array with starting data
-players.push({'id' : socket.id, 'ready': true, 'takenHits': 0, 'ships': ships});
+players.push({'id' : socket.id, 'ready': true, 'takenHits': 0, 'ships': []});
 
 socket.on('init', function(player){
 	var player;
 		for (var i = players.length - 1; i >= 0; i--) {
 		if(players[i].id == id) player = players[i]
-}
+	}
 
 //init with if statement to force the correct id
 	if (id == socket.id) socket.emit('init', player);
@@ -77,6 +83,7 @@ socket.on('fire', function(obj, id, ship){
 	// //define enemy
 	 players.map(function(player){if(player.id != socket.id) return enemy = player});
 
+	console.log('enemy', enemy);
 	/**
 	 * check if fired shot matches any ship location
 	 * @boolean {[true]}
@@ -103,7 +110,7 @@ socket.on('fire', function(obj, id, ship){
 			 if(currentPlayer.id == id) players.splice(i, 1);
 		}
 			console.log('a Player disconnect '+ players.length);
-	}); 
+	});
 });
 
 //let it listen on port
