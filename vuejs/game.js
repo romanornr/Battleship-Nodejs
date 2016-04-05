@@ -1,10 +1,5 @@
 var socket = io('');
 
-socket.on('test', function(socket){
-	vm.statusMessage = 'Enemy found';
-	console.log('test');
-});
-
 socket.on('enemyIsFound', function(){
 	vm.statusMessage = 'Enemy has been spotted on the radar. Quick place your ships!';
 	socket.emit('init');
@@ -208,7 +203,6 @@ var vm = new Vue({
 	rotated: false,
 	enemyReady: false,
 	ready: false
-	//player: null,
 	}, 
 
 	methods: {
@@ -219,16 +213,19 @@ var vm = new Vue({
 	}, 
 
 	computed: {
-		ready: function(){
+		setReady: function(){
 
-			var ready = true;
+		var ready = true;
 			for (var i = ships.length - 1; i >= 0; i--) {
-				if(ships[i].available >= 0) ready = true;
+				if(ships[i].available >= 1){
+					ready = true;
+				}
 			}
+
 		// 	if (ready){
 		// 		socket.emit('ready', this.playerid)
 		// 	}
-		// 	return ready;
+		return ready;
 		}
 	}
 
