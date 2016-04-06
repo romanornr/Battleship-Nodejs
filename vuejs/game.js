@@ -9,6 +9,14 @@ socket.on('init', function(obj){
 	vm.player = obj;
 });
 
+socket.on('permissionFire', function(obj){
+	if(vm.player.id == obj.id){
+		vm.player.permissionToFire = true;
+	}else{
+		vm.player.permissionToFire = false;
+	}
+	console.log(obj.id + '  ' + vm.player.id);
+})
 socket.on('PlayerJoined', function(){
 	vm.statusMessage = 'Not ready';
 });
@@ -22,6 +30,17 @@ socket.on('enemyReady', function(){
 socket.on('hit', function(obj){
 	if(obj.hit){
 		document.querySelector('[data-enemyCoordination="'+ obj.coordination +'"]').style.backgroundColor = "red";
+	}
+});
+
+socket.on('updateBoards', function(obj){
+	var tile = document.querySelector('[data-coordination="' + obj.coordination +'"]');
+	if(tile.getAttribute('class') == 'placed-tile'){
+		tile.style.backgroundColor = 'red';
+		vm.statusMessage = 'enemy turn';
+	}else{
+		tile.style.backgroundColor = 'cornflowerblue';
+		vm.statusMessage = 'your turn';
 	}
 })
 
@@ -176,7 +195,7 @@ Vue.component('enemy-board', {
 		fire: function(el){
 			if(el.currentTarget.getAttribute('data-hittable') == 'true')
 			{
-				if(!vm.player) return;
+				if(!vm.player || !vm.player.permissionToFire) return;
 				console.log(parseInt(el.currentTarget.getAttribute('data-enemyCoordination')));
 				socket.emit('fire', {'player':vm.player, 'coordination' : parseInt(el.currentTarget.getAttribute('data-enemyCoordination'))});
 				el.currentTarget.className = 'missed-tile';

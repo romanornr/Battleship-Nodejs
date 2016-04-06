@@ -106,7 +106,6 @@ socket.on('fire', function(obj, id, ship){
 		socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
 
 		}else{
-
 			permissionToFire(enemy.id, function(){
 				socket.emit('permissionFire', enemy)
 			});
@@ -114,6 +113,8 @@ socket.on('fire', function(obj, id, ship){
 			console.log('missed');
 			console.log(obj.coordination);
 		};
+
+		socket.broadcast.emit('updateBoards', { 'coordination': obj.coordination, 'enemy':enemy});
 });
 
 	socket.on('disconnect', function(){
