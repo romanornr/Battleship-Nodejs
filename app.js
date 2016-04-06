@@ -17,7 +17,7 @@ var ships = [
 		{'type': 'Destroyer', 'size': 3, 'rekt': false, 'available': 3, 'location' : []},
 		{'type': 'Submarine', 'size': 3, 'rekt': false, 'available': 3, 'location' : []},
 		{'type': 'Patrolboat', 'size': 2, 'rekt': false, 'available': 4, 'location' : []}
-	];
+	]; //takes 39 hits before all ships are rekt
 
 var updateShip = function(id, ship, callback){
 
@@ -40,7 +40,7 @@ var updateShip = function(id, ship, callback){
 };
 
 /**
- * Giving a player his turn to play
+ * Giving a player his turn to play.
  * socket.id  {[int]}   id   [network socketid]
  * @return {[boolean]}       [sets pemission to true]
  */
@@ -52,7 +52,8 @@ var permissionToFire = function(id, callback){
 io.on('connection', function(socket){
 var id = socket.id;
 
-if (players.length >= 2){
+//only 2 players allowed to play
+if (players.length >= 2){ 
 	socket.emit('RoomIsFull', true);
 	console.log('Room is full');
 	return;
@@ -60,11 +61,10 @@ if (players.length >= 2){
 
 socket.on('place', function(ship){
 	updateShip(socket.id, ship, function(){
-
 	});
 });
 
-//create player & push to players array with starting data
+//create player & push to players array with starting data.
 players.push({'id' : socket.id, 'ready': true, 'takenHits': 0, permissionToFire: false, 'ships': []});
 
 socket.on('init', function(player){
@@ -73,7 +73,7 @@ socket.on('init', function(player){
 		if(players[i].id == id) player = players[i]
 	}
 
-//init with if statement to force the correct id
+//init with if statement to force the correct id.
 	if (id == socket.id) socket.emit('init', player);
 	console.log(id + 'is ready to play');
 });
@@ -82,7 +82,7 @@ socket.on('init', function(player){
 if(players.length > 1){
 	socket.emit('enemyIsFound', 'enemyIsFound');
 	socket.broadcast.emit('enemyIsFound', 'enemyIsFound');
-	players[0].permissionToFire = true; //give the first player permission to fire
+	players[0].permissionToFire = true; //give the first player permission to fire.
 };
 
 
@@ -94,7 +94,7 @@ socket.on('fire', function(obj, id, ship){
 	console.log('enemy', enemy.id);
 
 	/**
-	 * check if fired shot matches any ship location
+	 * check if fired shot matches any ship location.
 	 * @boolean {[true]}
 	 */
 	 var hit = enemy.ships
@@ -105,26 +105,32 @@ socket.on('fire', function(obj, id, ship){
 		enemy.takenHits++;
 		console.log('Hit! '+ obj.coordination);
 		socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
+		if(enemy.takenHits >= 39) io.sockets.emit('win', enemy); //if all ships are hit, send win/lose message
 
 		}else{
 			console.log('missed');
 			console.log(obj.coordination);
 		};
 
+		/**
+		 * updating the bord of the current enemy
+		 * to show where the other play hit/missed.
+		 */
 		socket.broadcast.emit('updateBoards', { 'coordination': obj.coordination, 'enemy':enemy});
+
+		/**
+		 * give the turn to fire to the enemy who got shot.
+		 * @return {[object]}  [send enemy object]
+		 */
 		permissionToFire(enemy.id, function(){
 				io.sockets.connected[enemy.id].emit('permissionFire', enemy);
 			});
 		console.log(enemy);
-});
+	});
 
 	socket.on('disconnect', function(){
-		console.log(id +" player left")
-		for (var i = 0; i < players.length; i++) {
-			 var currentPlayer = players[i]
-			 if(currentPlayer.id == id) players.splice(i, 1);
-		}
-			console.log('a Player disconnect '+ players.length);
+			players.map(function(player, index){if(player.id == id) players.splice(index, 1)});
+			console.log(id +" player left "+ players.length);
 	});
 });
 

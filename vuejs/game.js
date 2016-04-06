@@ -30,9 +30,7 @@ socket.on('enemyReady', function(){
 });
 
 socket.on('hit', function(obj){
-	if(obj.hit){
-		document.querySelector('[data-enemyCoordination="'+ obj.coordination +'"]').style.backgroundColor = "red";
-	}
+	if(obj.hit) document.querySelector('[data-enemyCoordination="'+ obj.coordination +'"]').style.backgroundColor = "red";
 });
 
 socket.on('updateBoards', function(obj){
@@ -44,6 +42,11 @@ socket.on('updateBoards', function(obj){
 		tile.style.backgroundColor = 'cornflowerblue';
 		vm.statusMessage = 'your turn';
 	}
+});
+
+socket.on('win', function(obj){
+	if(vm.player.id != obj.id) return alert('you win');
+	alert('you lose')
 });
 
 Vue.component('board', {
@@ -202,7 +205,7 @@ Vue.component('enemy-board', {
 				socket.emit('fire', {'player':vm.player, 'coordination' : parseInt(el.currentTarget.getAttribute('data-enemyCoordination'))});
 				el.currentTarget.className = 'missed-tile';
 				el.currentTarget.setAttribute('data-hittable', 'false');
-				vm.player.permissionToFire = false;
+				vm.player.permissionToFire = false; vm.statusMessage = 'Enemy turn';
 			}
 		}
 	}
