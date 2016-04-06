@@ -39,6 +39,14 @@ var updateShip = function(id, ship, callback){
     console.log('player', player.id, 'ship', ship, 'ships', player.ships);
 };
 
+/**
+ * Giving a player his turn to play
+ * socket.id  {[int]}   id   [network socketid]
+ * @return {[boolean]}       [sets pemission to true]
+ */
+var permissionToFire = function(id, callback){
+	players.map(function(player){if(player.id == id) return player.permissionToFire = true});
+}
 
 io.on('connection', function(socket){
 var id = socket.id;
@@ -56,7 +64,7 @@ socket.on('place', function(ship){
 });
 
 //create player & push to players array with starting data
-players.push({'id' : socket.id, 'ready': true, 'takenHits': 0, 'ships': []});
+players.push({'id' : socket.id, 'ready': true, 'takenHits': 0, permissionToFire: false, 'ships': []});
 
 socket.on('init', function(player){
 	var player;
@@ -69,9 +77,11 @@ socket.on('init', function(player){
 	console.log(id + 'is ready to play');
 });
 
+//message that 2 players are able to play
 if(players.length > 1){
 	socket.emit('enemyIsFound', 'enemyIsFound');
 	socket.broadcast.emit('enemyIsFound', 'enemyIsFound');
+	players[0].permissionToFire = true; //give the first player permission to fire
 };
 
 
@@ -80,8 +90,8 @@ socket.on('fire', function(obj, id, ship){
 	var enemy = [];
 	// //define enemy
 	 players.map(function(player){if(player.id != socket.id) return enemy = player});
-
 	console.log('enemy', enemy.id);
+
 	/**
 	 * check if fired shot matches any ship location
 	 * @boolean {[true]}
@@ -92,10 +102,15 @@ socket.on('fire', function(obj, id, ship){
 
 	if(hit){
 		enemy.takenHits++;
-		console.log('Hit! '+obj.coordination);
+		console.log('Hit! '+ obj.coordination);
 		socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
 
 		}else{
+
+			permissionToFire(enemy.id, function(){
+				socket.emit('permissionFire', enemy)
+			});
+			console.log(enemy);
 			console.log('missed');
 			console.log(obj.coordination);
 		};
