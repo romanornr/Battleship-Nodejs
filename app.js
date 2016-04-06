@@ -45,7 +45,8 @@ var updateShip = function(id, ship, callback){
  * @return {[boolean]}       [sets pemission to true]
  */
 var permissionToFire = function(id, callback){
-	players.map(function(player){if(player.id == id) return player.permissionToFire = true});
+	players.map(function(enemy){if(enemy.id == id) callback(enemy.permissionToFire = true);
+	});
 }
 
 io.on('connection', function(socket){
@@ -106,15 +107,15 @@ socket.on('fire', function(obj, id, ship){
 		socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
 
 		}else{
-			permissionToFire(enemy.id, function(){
-				socket.emit('permissionFire', enemy)
-			});
-			console.log(enemy);
 			console.log('missed');
 			console.log(obj.coordination);
 		};
 
 		socket.broadcast.emit('updateBoards', { 'coordination': obj.coordination, 'enemy':enemy});
+		permissionToFire(enemy.id, function(){
+				io.sockets.connected[enemy.id].emit('permissionFire', enemy);
+			});
+		console.log(enemy);
 });
 
 	socket.on('disconnect', function(){

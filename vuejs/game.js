@@ -12,11 +12,13 @@ socket.on('init', function(obj){
 socket.on('permissionFire', function(obj){
 	if(vm.player.id == obj.id){
 		vm.player.permissionToFire = true;
+		vm.statusMessage = 'Your turn';
 	}else{
-		vm.player.permissionToFire = false;
+		vm.permissionToFire = false;
+		vm.statusMessage = 'Enemy turn';
 	}
-	console.log(obj.id + '  ' + vm.player.id);
-})
+});
+
 socket.on('PlayerJoined', function(){
 	vm.statusMessage = 'Not ready';
 });
@@ -42,7 +44,7 @@ socket.on('updateBoards', function(obj){
 		tile.style.backgroundColor = 'cornflowerblue';
 		vm.statusMessage = 'your turn';
 	}
-})
+});
 
 Vue.component('board', {
 	props:['columns', 'rows'],
@@ -195,11 +197,12 @@ Vue.component('enemy-board', {
 		fire: function(el){
 			if(el.currentTarget.getAttribute('data-hittable') == 'true')
 			{
-				if(!vm.player || !vm.player.permissionToFire) return;
+				if(!vm.player || vm.player.permissionToFire == false) return;
 				console.log(parseInt(el.currentTarget.getAttribute('data-enemyCoordination')));
 				socket.emit('fire', {'player':vm.player, 'coordination' : parseInt(el.currentTarget.getAttribute('data-enemyCoordination'))});
 				el.currentTarget.className = 'missed-tile';
 				el.currentTarget.setAttribute('data-hittable', 'false');
+				vm.player.permissionToFire = false;
 			}
 		}
 	}
