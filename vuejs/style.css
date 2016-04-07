@@ -24,10 +24,11 @@ tr:first-child > td, td:first-child {
     padding-left: 20px;
 }
 
-.tile:hover, .tile-hover, .placed-tile {
+.tile-hover, .placed-tile{
     background-color: 2b5b8c;
-    cursor: pointer;
-}
+    cursor: pointer;}
+
+.tile:hover{background-color: #fefeca;}
 
 .hit-tile {
     background-color: #a3213d;
