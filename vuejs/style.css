@@ -16,7 +16,7 @@ body{background-color:#7fb8f2;}
 .grid tr:nth-child(10) td{border-bottom-color:rgba(0,0,0,0);}		
 
 
-table {
+table{
     width: 35%;
 }
 
@@ -30,11 +30,11 @@ tr:first-child > td, td:first-child {
 }
 
 .hit-tile {
-    background-color: #B40404;
+    background-color: #a3213d;
 }
 
 .missed-tile {
-    background: #2ECCFA;
+    background: #fefeca;
 }
 
 #boards {
