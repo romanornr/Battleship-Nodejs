@@ -4,15 +4,42 @@
     <meta charset="UTF-8">
     <title>game</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 </head>
 <body>
-    <h1>Klik om schepen te plaatsen</h1>
-    <button onclick="setShipSize(2)">1x2</button>
-    <button onclick="setShipSize(3)">1x3</button>
-    <button onclick="setShipSize(4)">1x4</button>
+<h1>Zeeslag</h1>
 
-    <button onclick="setShipRotation(0)">vertical</button>
-    <button onclick="setShipRotation(1)">horizontal</button>
-    <script src="js/main.js"></script>
+<div id="buttons">
+    <button onclick="setShipType(0)">vliegdekschip</button>
+    aantal over: 1
+    <button onclick="setShipType(1)">slagschip</button>
+    aantal over: 2
+    <button onclick="setShipType(2)">torpedojager</button>
+    aantal over: 3
+    <button onclick="setShipType(3)">onderzeeboot</button>
+    aantal over: 3
+    <button onclick="setShipType(4)">patrouilleboot</button>
+    aantal over: 4
+    <div id="bottomButtons">
+        <button id="vertical" class="rotateButton" onclick="setShipRotation(0)">vertical</button>
+        <button id="horizontal" class="rotateButton" onclick="setShipRotation(1)">horizontal</button>
+        <button id="resetButton" class="resetButton" onclick="resetGame()">reset game</button>
+        <button id=SB" class="startButton" disabled="disabled" onclick="startStageTwo()">begin!</button>
+    </div>
+</div>
+
+<div id="instructions">
+    <h2>instructies:</h2>
+
+    <ul>
+        <li>Slecteer links een schip</li>
+        <li>Klik op de gird om een schip te plaatsen</li>
+        <li>Gebruik de knoppen met 'horizontaal' en 'verticaal' om schepen te draaien</li>
+        <li>Al heb je alle schepen geplaatst kan je op 'Begin!' klikken</li>
+    </ul>
+</div>
+
+<script src="js/main.js"></script>
 </body>
 </html>

@@ -1,11 +1,92 @@
 .title {
     background-color: red;
     float: left;
-
-    border: 2px solid;
+    border: 1px solid;
 }
 
-#grid {
-    margin-left: auto;
-    margin-right: auto;
+#buttons{
+    float: left;
+    width: 325px;
+    margin: 25px;
+
+    border: 2px lightgrey solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+button{
+    width: 200px;
+    height: 40px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+
+    border: 2px lightblue solid;
+    border-radius: 5px;
+    background-color: white;
+}
+
+#rotateButtons {
+    margin-top: 25px;
+    float: left;
+}
+
+.rotateButton, .resetButton, .startButton {
+    width: 150px;
+}
+
+.startButton{
+    background-color: lightgreen;
+}
+
+#resetButton {
+    background-color: lightcoral;
+}
+
+button:hover {
+    background-color: lightgrey;
+}
+
+h1{
+    text-align: center;
+    font-size: 50px;
+    font-weight: normal;
+}
+
+body {
+    font-family: 'Oswald', sans-serif;
+}
+
+#ownShips, #shootGrid, #grid{
+    width: 450px;
+    height: 450px;
+    margin: 25px;
+    float: left;
+}
+
+.shootTitle:hover {
+    background-color: lightblue;
+}
+
+:focus {
+    outline-color: transparent;
+    outline-style: none;
+}
+
+#horizontal {
+    border-color: blue;
+}
+
+#instructions {
+    float: right;
+    width: 300px;
+
+    margin-top: 25px;
+
+    border: 2px lightgrey solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+h2{
+    margin-top: 0;
 }
