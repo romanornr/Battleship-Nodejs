@@ -23,8 +23,9 @@ socket.on('PlayerJoined', function(){
 	vm.statusMessage = 'Not ready';
 });
 
-socket.on('enemyIsReady', function(){
-	vm.statusMessage = 'Your enemy is ready!';
+socket.on('enemyReady', function(){
+	vm.enemyReady = true;
+	vm.statusMessage = 'Ready';
 	console.log('Enemy is ready');
 });
 
@@ -91,7 +92,7 @@ Vue.component('board', {
 						this.$root.chosenShip.location.push(parseInt(hoveredTile[i].getAttribute('data-coordination')));
 					}
 					this.$root.chosenShip.available--;
-					socket.emit('place', this.$root.chosenShip);
+					console.log(socket.emit('place', this.$root.chosenShip));
 				}
 
 			},
@@ -210,11 +211,12 @@ var vm = new Vue({
 
 	computed: {
 		isReady: function(){
+
 			var ready = true;
 			for (var i = 0; i < this.ships.length; i++) {
 				if(this.ships[i].available == 1) ready = false;
 			}
-			if(ready == true) socket.emit('ready');
+
 			return ready;
 		}
 	}

@@ -23,7 +23,7 @@ var updateShip = function(id, ship, callback){
 
 	var player;
 
-    //console.log('Ship', ship);
+    console.log('Ship', ship);
 
 	for (var i = 0; i< players.length; i++) {
 		if(players[i].id == id) player = players[i];
@@ -36,7 +36,7 @@ var updateShip = function(id, ship, callback){
 		}
 	}
 
-    //console.log('player', player.id, 'ship', ship, 'ships', player.ships);
+    console.log('player', player.id, 'ship', ship, 'ships', player.ships);
 };
 
 /**
@@ -62,10 +62,6 @@ if (players.length >= 2){
 socket.on('place', function(ship){
 	updateShip(socket.id, ship, function(){
 	});
-});
-
-socket.on('ready', function(){
-	socket.broadcast.emit('enemyIsReady')
 });
 
 //create player & push to players array with starting data.
