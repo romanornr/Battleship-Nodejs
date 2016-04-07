@@ -52,20 +52,6 @@ socket.on('win', function(obj){
 Vue.component('board', {
 	props:['columns', 'rows'],
 	template: '#board-template',
-	
-		computed:{
-		board: function(){
-			var height = this.columns *60;
-			var width = this.rows * 60;
-			var id = 0;
-
-				var element = []; 
-				for (var i = 0; i <this.columns; i++){
-					element += id++;
-				}
-				return element;
-			}
-	},
 
 	methods: {
 		placeTheShip: function(el){
@@ -181,20 +167,6 @@ changeStyle: function(el) {
 Vue.component('enemy-board', {
 	template: "#enemyBoard-template", 
 	props: ['columns', 'rows'], 
-
-	computed:{
-		enemyBoard: function(){
-			var height = this.columns *60;
-			var width = this.rows * 60;
-			var id = 0;
-
-				var element = []; 
-				for (var i = 0; i <this.columns; i++){
-					element += id++;
-				}
-				return element;
-			}
-	}, 
 
 	methods: {
 		fire: function(el){
