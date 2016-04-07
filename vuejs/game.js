@@ -240,15 +240,12 @@ var vm = new Vue({
 	computed: {
 		isReady: function(){
 
-			ready = true;
-				for (var i = 0; i < vm.ships.length; i++) {
-					if(vm.ships[i].available > 0) return ready = false;
-				}
+			var ready = true;
+			for (var i = 0; i < this.ships.length; i++) {
+				if(this.ships[i].available == 1) ready = false;
+			}
 
-		// 	if (ready){
-		// 		socket.emit('ready', this.playerid)
-		// 	}
-		return ready;
+			return ready;
 		}
 	}
 }); 
