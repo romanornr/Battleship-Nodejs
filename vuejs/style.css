@@ -1,8 +1,20 @@
-td {
-    width: 10%;
-    height: 10%;
-    -webkit-box-sizing: border-box;
-}
+@font-face{
+    font-family: AR DESTINE;
+    src: ARDESTINE.ttf;}
+	
+body{background-color:#7fb8f2;}	
+
+.grid td{border-width: 8px;
+		 border-color:rgba(255,199,87,0.55);}
+		
+.grid td:nth-child(1){border-left-color:rgba(0,0,0,0);}
+
+.grid td:nth-child(9){border-right-color:rgba(0,0,0,0);}
+
+.grid tr:nth-child(1) td{border-top-color:rgba(0,0,0,0);}
+
+.grid tr:nth-child(10) td{border-bottom-color:rgba(0,0,0,0);}		
+
 
 table {
     width: 35%;
@@ -13,7 +25,7 @@ tr:first-child > td, td:first-child {
 }
 
 .tile:hover, .tile-hover, .placed-tile {
-    background-color: #BDBDBD;
+    background-color: 2b5b8c;
     cursor: pointer;
 }
 
@@ -37,9 +49,10 @@ tr:first-child > td, td:first-child {
     justify-content: center;
 }
 
-h1{
-    text-align: center;
-}
+h1{text-align: center;
+   font-family: AR DESTINE;
+   font-size:7em;}
+
 
 #buttons {
     display: flex;

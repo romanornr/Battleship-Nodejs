@@ -16,6 +16,7 @@
     <div id="msg">
         <h4>{{statusMessage}}</h4>
     </div>
+	
     <div id="ready">
         <p>Your board: <span v-show="ready">Ready</span><span v-else>Not ready</span></p>
     </div>
@@ -27,7 +28,7 @@
 
 
         <template id="board-template">
-            <table border="1">
+            <table border="1" class="grid">
                 <tr v-for="n in board">
                     <td v-for="i in board" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}"
                         v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile"
@@ -37,7 +38,7 @@
         </template>
 
         <template id="enemyBoard-template">
-            <table border="1">
+            <table border="1"  class="grid">
                 <tr v-for="n in enemyBoard">
                     <td v-for="i in enemyBoard" @click="fire($event)" data-enemyCoordination="{{n +''+ i}}"
                         data-hittable="true" class="tile" v-if="i > 0" v-for="n in columns"></td>
@@ -61,8 +62,7 @@
         </p>
     </div>
 
-    <button @click="rotated =! rotated" :disabled="ships.available == 0" type="button" id="rotate"
-    >
+    <button @click="rotated =! rotated" :disabled="ships.available == 0" type="button" id="rotate">
         Rotate the ship {{rotated ? 'vertical' : 'horizontal'}}
     </button>
 </div>
