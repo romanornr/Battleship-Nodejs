@@ -9,7 +9,7 @@ var io = require('socket.io')(http);
 app.use(express.static(__dirname + '/vuejs'));
 app.use(express.static(__dirname + '/socket.io'));
 
-var players = [];
+var players = [], turns = 0;
 
 var ships = [
 		{'type': 'Aircaft', 'size': 5, 'rekt': false, 'available': 1, 'location' : []},
@@ -85,8 +85,8 @@ if(players.length > 1){
 	players[0].permissionToFire = true; //give the first player permission to fire.
 };
 
-
 socket.on('fire', function(obj, id, ship){
+	turns++;
 
 	var enemy = [];
 	// //define enemy
