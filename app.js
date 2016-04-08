@@ -1,4 +1,4 @@
-var DEBUG = true;
+//var DEBUG = true;
 //import Express
 var app = require('express')();
 var express = require('express');
@@ -105,7 +105,11 @@ socket.on('fire', function(obj, id, ship){
 		enemy.takenHits++;
 		console.log('Hit! '+ obj.coordination);
 		socket.emit('hit', {'coordination' : obj.coordination, 'hit' : hit});
-		if(enemy.takenHits >= 39) io.sockets.emit('win', enemy); //if all ships are hit, send win/lose message
+
+		/**
+		 * if all ships are hit, send win/lose message
+		 */
+		if(enemy.takenHits >= 39) io.sockets.emit('win', enemy);
 
 		}else{
 			console.log('missed');

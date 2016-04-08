@@ -15,9 +15,13 @@
         <h4>{{statusMessage}}</h4>
     </div>
     <div id="ready">
-        <p>Your board: <span v-show="isReady">Ready</span><span v-else>Not ready</span></p>
+        <p>Your board: <span v-show="isReady"><font color="green"> Ready</font></span><span v-else><font color="red">Not ready!</font></span></p>
     </div>
 
+<div id="ready2">
+        <p>enemy board: <span v-show="enemyReady"><font color="green"> Ready</font></span><span v-else><font color="red">Not ready!</font></span></p>
+    </div>
+    
     <div id="boards">
 
         <board :columns="10" :rows="10"></board>
@@ -25,9 +29,10 @@
         <template id="board-template">
             <table border="1">
                 <tr v-for="n in rows">
-                    <td v-for="i in columns" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}"
-                        v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile"
-                         v-for="n in columns"></td>
+                    <template v-for="i in columns">
+                    <td @click="placeTheShip($event)" data-coordination="{{ n == 0 ? i : n + '' +i}}"
+                        v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile"></td>
+                </template>
                 </tr>
             </table>
         </template>
@@ -35,8 +40,10 @@
         <template id="enemyBoard-template">
             <table border="1">
                 <tr v-for="n in rows">
-                    <td v-for="i in columns" @click="fire($event)" data-enemyCoordination="{{n +''+ i}}"
-                        data-hittable="true" class="tile" v-for="n in columns"></td>
+                    <template v-for="i in columns">
+                    <td @click="fire($event)" data-enemyCoordination="{{ n == 0 ? i : n + '' +i}}"
+                        data-hittable="true" class="tile"></td>
+                    </template>
                 </tr>
             </table>
         </template>
@@ -64,7 +71,7 @@
 </div>
 
 </body>
-<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript" src="vue.min.js"></script>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script type="text/javascript" src="game.js"></script>
 <script src="main.js"></script>

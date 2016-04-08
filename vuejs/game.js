@@ -214,11 +214,11 @@ var vm = new Vue({
 
 			var ready = true;
 			for (var i = 0; i < this.ships.length; i++) {
-				if(this.ships[i].available == 1) ready = false;
+				if(this.ships[i].available > 0) ready = false;
 			}
 
 			return ready;
 		}
 	}
 }); 
-Vue.config.debug = true;
+//Vue.config.debug = true;

@@ -8,6 +8,7 @@ table {
     width: 35%;
 }
 
+
 tr:first-child > td, td:first-child {
     padding-left: 20px;
 }
@@ -81,4 +82,11 @@ p{
 #ready {
     display: flex;
     justify-content: center;
+}
+
+#ready2 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
