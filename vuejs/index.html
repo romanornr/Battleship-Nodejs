@@ -25,9 +25,9 @@
         <template id="board-template">
             <table border="1">
                 <tr v-for="n in rows">
-                    <td v-for="i in columns+1" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}"
+                    <td v-for="i in columns" @click="placeTheShip($event)" data-coordination="{{n +'' +i}}"
                         v-on:mouseleave="setDef($event)" v-on:mouseover="changeStyle($event)" class="tile"
-                        v-if="i > 0" v-for="n in columns"></td>
+                         v-for="n in columns"></td>
                 </tr>
             </table>
         </template>
@@ -35,8 +35,8 @@
         <template id="enemyBoard-template">
             <table border="1">
                 <tr v-for="n in rows">
-                    <td v-for="i in columns+1" @click="fire($event)" data-enemyCoordination="{{n +''+ i}}"
-                        data-hittable="true" class="tile" v-if="i > 0" v-for="n in columns"></td>
+                    <td v-for="i in columns" @click="fire($event)" data-enemyCoordination="{{n +''+ i}}"
+                        data-hittable="true" class="tile" v-for="n in columns"></td>
                 </tr>
             </table>
         </template>
