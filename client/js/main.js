@@ -134,10 +134,8 @@ Ship.prototype.rektShip = function () {
  * @param mousout, gives color red (cancel)
  * @param draw, draws title in the grid
  */
-var Title = function (posX, posY, height, width, id) {
+var Title = function (posX, posY, id) {
     this.pos = {x: posX, y: posY};
-    this.height = height;
-    this.width = width;
     this.id = id;
 
     this.clicked = false;
@@ -145,15 +143,15 @@ var Title = function (posX, posY, height, width, id) {
     this.elem = document.createElement("div");
     this.elem.className = "title";
     this.elem.id = id;
-    this.elem.style.width = (this.width - 4) + "px";
-    this.elem.style.height = (this.height - 4) + "px";
+    this.elem.style.width = "28px";
+    this.elem.style.height = "28px";
 
     this.elem.addEventListener("click", function () {
-        placeShip(this, {x: posX, y: posY});
+        placeShip(this, {'x': posX, 'y': posY});
     });
 
     this.elem.addEventListener("mouseover", function () {
-        previewShip(this, {x: posX, y: posY});
+        previewShip(this, {'x': posX, 'y': posY});
     });
 
     this.elem.addEventListener("mouseout", resetPreviews);
@@ -171,22 +169,17 @@ var Title = function (posX, posY, height, width, id) {
  * @return {void}
  * @param removeFromDOM [removes ship from dom]
  */
-var Grid = function (height, width, titleX, titleY) {
-    this.titleWidth = width / titleX;
-    this.titleHeight = height / titleY;
-
+var Grid = function () {
     this.container = document.createElement("div");
     this.container.id = "grid";
-    this.container.style.width = width + "px";
-    this.container.style.height = height + "px";
 
     this.draw = function () {
         document.body.appendChild(this.container);
 
         var id = 0;
-        for (var y = 0; y < titleY; y++) {
-            for (var x = 0; x < titleX; x++) {
-                var title = new Title(x, y, this.titleHeight, this.titleWidth, id);
+        for (var y = 0; y < 15; y++) {
+            for (var x = 0; x < 15; x++) {
+                var title = new Title(x, y, id);
                 title.draw(this.container);
                 id++;
             }
@@ -345,6 +338,13 @@ var setShipType = function (type) {
 //sets the ship rotation. called by a button
 var setShipRotation = function (rotation) {
     gameWorld.selectedShipRotation = rotation;
+    if(rotation == 0) {
+        document.getElementById("vertical").style.borderColor = "blue";
+        document.getElementById("horizontal").style.borderColor = "lightblue";
+    }else{
+        document.getElementById("vertical").style.borderColor = "lightblue";
+        document.getElementById("horizontal").style.borderColor = "blue";
+    }
 };
 
 /**
@@ -417,7 +417,6 @@ var OwnShipGrid = function (ships, shipTitles) {
                 title.style.height = "28px";
 
                 for(var z = 0; z < shipTitles.length; z++){
-                    console.log(id, shipTitles[z]);
                     if(id == shipTitles[z]){
                         title.style.backgroundColor = 'blue';
                     }
@@ -441,8 +440,6 @@ var TargetGrid = function () {
     this.elem.id = "shootGrid";
 
     this.draw = function () {
-        console.log(this.shipstitles);
-
         document.body.appendChild(this.elem);
 
         for (var x = 0; x < 15; x++) {
@@ -490,7 +487,6 @@ var startStageTwo = function () {
     gameWorld.ownShipsGrid = new OwnShipGrid(ships, shipTitles);
 
     gameWorld.ownShipsGrid.draw();
-    console.log(gameWorld.ownShipsGrid);
 
     gameWorld.targetGrid = new TargetGrid();
     gameWorld.targetGrid.draw();
@@ -500,8 +496,6 @@ var startStageTwo = function () {
 var shoot = function(pos, targetPlayer, targetGrid)
 {
     //var targetGrid = targetGrid;
-    //console.log(targetGrid);
-    console.log(pos);
     var targetPlayer;
 
     // if (targetPlayer == Const.player1)
@@ -525,11 +519,11 @@ var shoot = function(pos, targetPlayer, targetGrid)
 };
 
 var enableStartButton = function(){
-    if(gameWorld.ships.length >= 10){
+    if(gameWorld.ships.length >= 13){
         document.getElementsByClassName("startButton")[0].disabled = false;
     }
 };
 
 
-gameWorld.grid = new Grid(960, 960, 15, 15);
+gameWorld.grid = new Grid();
 gameWorld.grid.draw();
