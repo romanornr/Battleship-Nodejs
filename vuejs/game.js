@@ -23,7 +23,7 @@ socket.on('PlayerJoined', function(){
 	vm.statusMessage = 'Not ready';
 });
 
-socket.on('enemyReady', function(){
+socket.on('enemyIsReady', function(){
 	vm.enemyReady = true;
 	vm.statusMessage = 'Ready';
 	console.log('Enemy is ready');
@@ -173,6 +173,7 @@ Vue.component('enemy-board', {
 			if(el.currentTarget.getAttribute('data-hittable') == 'true')
 			{
 				if(!vm.player || vm.player.permissionToFire == false) return;
+				if(vm.enemyReady != true) return alert('Your enemy is not ready yet');
 				console.log(parseInt(el.currentTarget.getAttribute('data-enemyCoordination')));
 				socket.emit('fire', {'player':vm.player, 'coordination' : parseInt(el.currentTarget.getAttribute('data-enemyCoordination'))});
 				el.currentTarget.className = 'missed-tile';
@@ -217,6 +218,7 @@ var vm = new Vue({
 				if(this.ships[i].available > 0) ready = false;
 			}
 
+			if(ready == true) socket.emit('ready');
 			return ready;
 		}
 	}

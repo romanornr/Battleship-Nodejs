@@ -64,6 +64,14 @@ socket.on('place', function(ship){
 	});
 });
 
+/**
+ * check if enemy is ready & send
+ * @return {[boolean]}
+ */
+socket.on('ready', function(){
+	socket.broadcast.emit('enemyIsReady')
+});
+
 //create player & push to players array with starting data.
 players.push({'id' : socket.id, 'ready': true, 'takenHits': 0, permissionToFire: false, 'ships': []});
 
